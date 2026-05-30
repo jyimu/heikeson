@@ -295,3 +295,257 @@ main {
   width: 100%;
   justify-content: center;
 }
+
+/* 抖音视频分析 */
+.douyin-section {
+  margin-top: 8px;
+  margin-bottom: 48px;
+}
+
+.douyin-section--page {
+  margin-top: 0;
+  padding-top: 8px;
+}
+
+.page-back {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  color: #555;
+  text-decoration: none;
+}
+
+.page-back:hover {
+  color: #111;
+}
+
+.douyin-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 28px;
+  background: #fafafa;
+}
+
+.douyin-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.douyin-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.douyin-desc {
+  font-size: 0.92rem;
+  color: #555;
+}
+
+.douyin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.douyin-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.douyin-input-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.douyin-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  background: #fff;
+  outline: none;
+}
+
+.douyin-input:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.douyin-input-row .btn {
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.douyin-textarea {
+  width: 100%;
+  min-height: 88px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.douyin-input-row--end {
+  justify-content: flex-end;
+}
+
+.douyin-result-tags {
+  font-size: 0.82rem;
+  color: #52525b;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.douyin-result-tags .douyin-tag-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 2px 4px 2px 0;
+  border-radius: 999px;
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.douyin-input-row .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.douyin-status {
+  font-size: 0.88rem;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.douyin-status--error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.douyin-status--success {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.douyin-status--info {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.douyin-result {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.douyin-result--loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.douyin-result-head {
+  margin-bottom: 20px;
+}
+
+.douyin-result-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.douyin-result-head h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.douyin-result-summary {
+  font-size: 0.9rem;
+  color: #52525b;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.douyin-result-meta {
+  font-size: 0.78rem;
+  color: #71717a;
+}
+
+.douyin-result-meta a {
+  color: #111;
+}
+
+.douyin-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.douyin-result-block {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.douyin-result-block--full {
+  margin-bottom: 12px;
+}
+
+.douyin-result-block h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #374151;
+}
+
+.douyin-result-block ul {
+  padding-left: 18px;
+}
+
+.douyin-result-block li,
+.douyin-result-block p {
+  font-size: 0.85rem;
+  color: #52525b;
+  line-height: 1.65;
+}
+
+.douyin-result-block li + li {
+  margin-top: 6px;
+}
+
+.douyin-result-personal {
+  background: #f4f4f5;
+  border-color: #d4d4d8;
+}
+
+@media (max-width: 768px) {
+  .douyin-input-row {
+    flex-direction: column;
+  }
+
+  .douyin-input-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .douyin-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .douyin-card {
+    padding: 20px 16px;
+  }
+}

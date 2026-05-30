@@ -124,14 +124,17 @@
             <h2>身体数据</h2>
             <div class="gh-profile-grid">
               <div class="gh-stat"><span>昵称</span><strong id="profile-name">—</strong></div>
-              <div class="gh-stat"><span>身高</span><strong id="profile-height">—</strong></div>
-              <div class="gh-stat"><span>体重</span><strong id="profile-weight">—</strong></div>
+              <div class="gh-stat"><span>BMI 指数</span><strong id="profile-bmi">—</strong></div>
             </div>
-            <div class="gh-stat" style="margin-top:12px">
-              <span>BMI 指数</span>
-              <strong id="profile-bmi">—</strong>
-            </div>
-            <p style="margin-top:14px;font-size:0.82rem;color:#71717a">数据来自首页注册信息，可在首页修改账号。</p>
+            <form class="gh-log-form gh-profile-form" id="profile-form">
+              <label for="profile-height-input">身高 (cm)</label>
+              <input type="number" id="profile-height-input" min="50" max="250" step="0.1" placeholder="例如 170" required disabled />
+              <label for="profile-weight-input">体重 (kg)</label>
+              <input type="number" id="profile-weight-input" min="20" max="300" step="0.1" placeholder="例如 65" required disabled />
+              <p id="profile-message" class="gh-profile-message" hidden></p>
+              <button type="submit" class="gh-btn" id="profile-save-btn" disabled>保存修改</button>
+            </form>
+            <p class="gh-profile-hint" id="profile-hint">请先在首页登录后再修改身体数据。</p>
           </div>
         </section>
       </main>

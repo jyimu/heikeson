@@ -359,9 +359,39 @@ body.gh-body {
   margin-bottom: 4px;
 }
 
+.gh-profile-form {
+  margin-top: 16px;
+}
+
+.gh-profile-message {
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.gh-profile-message--error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.gh-profile-message--success {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.gh-profile-hint {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: #71717a;
+}
+
+.gh-profile-hint[hidden] {
+  display: none;
+}
+
 .gh-profile-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 

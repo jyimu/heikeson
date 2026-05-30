@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>抖音视频分析 · 黑鸭 dark duck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="logo">dark duck</a>
+    <div class="auth-actions">
+      <span id="auth-status">未登录</span>
+      <button id="auth-open-btn" class="btn btn-primary">登录 / 注册</button>
+      <button id="auth-logout-btn" class="btn btn-secondary" style="display:none">退出</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="douyin-section douyin-section--page">
+      <a href="index.html" class="page-back">← 返回首页</a>
+
+      <div class="douyin-card">
+        <div class="douyin-header">
+          <h1 class="douyin-title">抖音视频分析</h1>
+          <p class="douyin-desc">直接粘贴抖音完整分享内容（含链接与 #标签），系统将结合标签文字分析动作</p>
+        </div>
+
+        <form id="douyin-form" class="douyin-form">
+          <label class="douyin-label" for="douyin-url">抖音分享内容</label>
+          <textarea
+            id="douyin-url"
+            class="douyin-input douyin-textarea"
+            rows="3"
+            placeholder="粘贴完整分享，如：复制打开抖音… https://v.douyin.com/xxx #肱二头肌 #健身 #居家训练"
+            required
+          ></textarea>
+          <div class="douyin-input-row douyin-input-row--end">
+            <button type="submit" class="btn btn-primary" id="douyin-analyze-btn">开始分析</button>
+          </div>
+          <label class="douyin-label" for="douyin-hint">补充说明（选填）</label>
+          <input
+            type="text"
+            id="douyin-hint"
+            class="douyin-input"
+            placeholder="例如：肱二头肌弯举、深蹲教学、新手俯卧撑跟练…"
+          />
+          <p id="douyin-status" class="douyin-status" hidden></p>
+        </form>
+
+        <div id="douyin-result" class="douyin-result" hidden>
+          <div class="douyin-result-head">
+            <span class="douyin-result-badge">分析结果</span>
+            <h3 id="result-action">—</h3>
+            <p id="result-summary" class="douyin-result-summary"></p>
+            <p id="result-tags" class="douyin-result-tags" hidden></p>
+            <p class="douyin-result-meta">视频 ID：<span id="result-video-id">—</span> · <a id="result-source-link" href="#" target="_blank" rel="noopener">查看原视频链接</a></p>
+          </div>
+          <div class="douyin-result-grid">
+            <div class="douyin-result-block">
+              <h4>技术要点</h4>
+              <ul id="result-points"></ul>
+            </div>
+            <div class="douyin-result-block">
+              <h4>常见错误</h4>
+              <ul id="result-mistakes"></ul>
+            </div>
+          </div>
+          <div class="douyin-result-block douyin-result-block--full">
+            <h4>推荐训练方案</h4>
+            <p id="result-plan"></p>
+          </div>
+          <div class="douyin-result-block douyin-result-block--full douyin-result-personal">
+            <h4>个性化建议</h4>
+            <p id="result-personal"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="auth-modal" id="auth-modal" aria-hidden="true">
+    <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button type="button" class="auth-close" id="auth-close-btn" aria-label="关闭">×</button>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="auth-tab-login">登录</button>
+        <button type="button" class="auth-tab" id="auth-tab-register">注册</button>
+      </div>
+      <div class="auth-body">
+        <div class="auth-message" id="auth-message"></div>
+        <form id="login-form" class="auth-form active">
+          <label>用户名</label>
+          <input type="text" id="login-username" required placeholder="请输入用户名" />
+          <label>密码</label>
+          <input type="password" id="login-password" required placeholder="请输入密码" />
+          <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+        <form id="register-form" class="auth-form">
+          <label>昵称</label>
+          <input type="text" id="register-username" required placeholder="请输入昵称" />
+          <label>身高</label>
+          <input type="number" id="register-height" required placeholder="请输入身高" />
+          <label>体重</label>
+          <input type="number" id="register-weight" required placeholder="请输入体重" />
+          <label>密码</label>
+          <input type="password" id="register-password" required placeholder="请输入密码" />
+          <button type="submit" class="btn btn-primary">注册</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="joining.js"></script>
+  <script src="douyin_analyzer.js"></script>
+</body>
+</html>

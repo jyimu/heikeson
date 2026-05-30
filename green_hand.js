@@ -1,5 +1,6 @@
 (function () {
   const SESSION_KEY = "heikeson_currentUser";
+  const ACCOUNT_KEY = "heikeson_accounts";
   const LOG_KEY = "heikeson_workout_logs";
 
   const exercises = [
@@ -60,19 +61,39 @@
   ];
 
   const tips = [
-    {
-      tip: "训练前喝一小杯水，训练后 30 分钟内补充蛋白质更有助于恢复。",
-      quote: "「今天练的不是肌肉，是习惯。」",
-    },
-    {
-      tip: "新手建议先掌握动作标准，再逐步增加组数和重量。",
-      quote: "「慢，就是快。」",
-    },
-    {
-      tip: "每组之间休息 45–60 秒，感到头晕请立即停止。",
-      quote: "「倾听身体，比征服重量更重要。」",
-    },
+    { tip: "训练前喝一小杯水，训练后 30 分钟内补充蛋白质更有助于恢复。", quote: "「今天练的不是肌肉，是习惯。」" },
+    { tip: "新手建议先掌握动作标准，再逐步增加组数和重量。", quote: "「慢，就是快。」" },
+    { tip: "每组之间休息 45–60 秒，感到头晕请立即停止。", quote: "「倾听身体，比征服重量更重要。」" },
+    { tip: "深蹲时膝盖方向应与脚尖一致，避免内扣造成关节压力。", quote: "「细节到位，进步加倍。」" },
+    { tip: "平板支撑时收紧核心，别让腰塌下去，脖子保持自然中立。", quote: "「稳定，是一切力量的起点。」" },
+    { tip: "俯卧撑做不了标准版？先从跪姿或斜板俯卧撑开始。", quote: "「降低难度不是退缩，是聪明的进阶。」" },
+    { tip: "训练日之外保证 7–8 小时睡眠，肌肉在休息中生长。", quote: "「睡够，才能练够。」" },
+    { tip: "同一部位肌肉训练后至少休息 48 小时再练第二次。", quote: "「恢复，也是训练的一部分。」" },
+    { tip: "热身不只是跑两步，动态拉伸 5 分钟能显著降低受伤风险。", quote: "「准备充分，才能全力以赴。」" },
+    { tip: "训练结束后做 5–10 分钟静态拉伸，缓解延迟性肌肉酸痛。", quote: "「拉伸是给明天的自己留余地。」" },
+    { tip: "感到某侧明显更弱？可以多做 1–2 组弱侧，逐步平衡左右。", quote: "「对称的身体，更自由的运动。」" },
+    { tip: "呼吸节奏：用力时呼气，还原时吸气，不要憋气。", quote: "「会呼吸，才会发力。」" },
+    { tip: "居家训练同样有效，关键是规律执行，而不是器械多少。", quote: "「最好的健身房，是你坚持的那一间。」" },
+    { tip: "记录训练日志，能帮你看见微小进步，避免盲目加量。", quote: "「看得见的数据，撑得住的动力。」" },
+    { tip: "蛋白摄入分散到三餐，比一次性猛吃更利于吸收利用。", quote: "「细水长流，肌肉亦如此。」" },
+    { tip: "碳水不是敌人，训练前后适量摄入能提升表现与恢复。", quote: "「吃对饭，才能练到位。」" },
+    { tip: "弓步蹲时前膝不要超过脚尖太多，躯干保持微微前倾。", quote: "「姿态正确，比次数更重要。」" },
+    { tip: "开合跳适合作为热身收尾，心率上来后再进入力量训练。", quote: "「先唤醒身体，再挑战极限。」" },
+    { tip: "如果关节弹响伴随疼痛，请暂停并咨询专业人士。", quote: "「健康训练，永远排第一。」" },
+    { tip: "设定每周可完成的小目标，比一次练到虚脱更可持续。", quote: "「Consistency beats intensity. 坚持胜过强度。」" },
+    { tip: "训练时穿支撑性好的鞋，光脚或拖鞋容易滑倒或扭伤。", quote: "「装备简单，安全不能省。」" },
+    { tip: "感到平台期？尝试变换动作顺序、节奏或组间休息时间。", quote: "「换一条路，也能到达山顶。」" },
+    { tip: "训练前 1–2 小时避免大量高脂食物，以免消化负担影响状态。", quote: "「轻装上阵，身体更听使唤。」" },
+    { tip: "新手每周 3 次训练足够，不必天天练到力竭。", quote: "「少而精，远胜多而乱。」" },
+    { tip: "练完记得放松肩颈，长时间伏案+训练容易导致上背紧张。", quote: "「松下来的地方，力量才进得去。」" },
+    { tip: "体重波动 1–2 kg 很正常，别用单日数字否定长期努力。", quote: "「趋势比刻度更值得相信。」" },
+    { tip: "把「去训练」变成固定日程，像刷牙一样不需要额外意志力。", quote: "「习惯一旦养成，自律就不再痛苦。」" },
+    { tip: "组间可以走动、补水，但别刷手机坐到完全冷下来。", quote: "「休息是为了下一组，不是逃离训练。」" },
+    { tip: "核心不只是腹肌，深蹲、硬拉、推举都在考验你的核心稳定。", quote: "「核心强，动作才稳。」" },
+    { tip: "今天状态不好？把计划减量 30% 完成，也比完全放弃强。", quote: "「出现，就已经赢了一半。」" },
   ];
+
+  const LAST_TIP_KEY = "heikeson_last_tip_index";
 
   const gear = [
     { name: "瑜伽垫", desc: "防滑加厚，居家必备", icon: "🧶" },
@@ -110,6 +131,74 @@
     }
   }
 
+  function saveSession(user) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  }
+
+  function getAccounts() {
+    try {
+      return JSON.parse(localStorage.getItem(ACCOUNT_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveAccounts(accounts) {
+    localStorage.setItem(ACCOUNT_KEY, JSON.stringify(accounts));
+  }
+
+  function calcBmi(height, weight) {
+    const h = parseFloat(height) / 100;
+    const w = parseFloat(weight);
+    if (h <= 0 || w <= 0) return null;
+    return (w / (h * h)).toFixed(1);
+  }
+
+  function updateProfile(height, weight) {
+    const user = getSession();
+    if (!user || !user.username) {
+      throw new Error("请先在首页登录");
+    }
+
+    const h = parseFloat(height);
+    const w = parseFloat(weight);
+    if (!h || h < 50 || h > 250) {
+      throw new Error("请输入有效的身高（50–250 cm）");
+    }
+    if (!w || w < 20 || w > 300) {
+      throw new Error("请输入有效的体重（20–300 kg）");
+    }
+
+    const heightStr = String(h);
+    const weightStr = String(w);
+    const accounts = getAccounts();
+    const account = accounts.find(function (item) {
+      return item.username === user.username;
+    });
+    if (account) {
+      account.height = heightStr;
+      account.weight = weightStr;
+      saveAccounts(accounts);
+    }
+
+    const updated = {
+      username: user.username,
+      height: heightStr,
+      weight: weightStr,
+    };
+    saveSession(updated);
+    return updated;
+  }
+
+  function showProfileMessage(text, type) {
+    const messageEl = document.getElementById("profile-message");
+    if (!messageEl) return;
+    messageEl.textContent = text;
+    messageEl.hidden = !text;
+    messageEl.className =
+      "gh-profile-message" + (type ? " gh-profile-message--" + type : "");
+  }
+
   function getLogs() {
     try {
       return JSON.parse(localStorage.getItem(LOG_KEY)) || [];
@@ -128,8 +217,10 @@
     const metaEl = document.getElementById("user-meta");
     const avatarEl = document.getElementById("user-avatar");
     const profileName = document.getElementById("profile-name");
-    const profileHeight = document.getElementById("profile-height");
-    const profileWeight = document.getElementById("profile-weight");
+    const profileHeightInput = document.getElementById("profile-height-input");
+    const profileWeightInput = document.getElementById("profile-weight-input");
+    const profileSaveBtn = document.getElementById("profile-save-btn");
+    const profileHint = document.getElementById("profile-hint");
     const bmiEl = document.getElementById("profile-bmi");
 
     if (!user) {
@@ -137,8 +228,16 @@
       metaEl.textContent = "请先登录";
       avatarEl.textContent = "?";
       if (profileName) profileName.textContent = "—";
-      if (profileHeight) profileHeight.textContent = "—";
-      if (profileWeight) profileWeight.textContent = "—";
+      if (profileHeightInput) {
+        profileHeightInput.value = "";
+        profileHeightInput.disabled = true;
+      }
+      if (profileWeightInput) {
+        profileWeightInput.value = "";
+        profileWeightInput.disabled = true;
+      }
+      if (profileSaveBtn) profileSaveBtn.disabled = true;
+      if (profileHint) profileHint.hidden = false;
       if (bmiEl) bmiEl.textContent = "—";
       return;
     }
@@ -149,14 +248,19 @@
     avatarEl.textContent = initial;
 
     if (profileName) profileName.textContent = user.username;
-    if (profileHeight) profileHeight.textContent = user.height + " cm";
-    if (profileWeight) profileWeight.textContent = user.weight + " kg";
-
-    const h = parseFloat(user.height) / 100;
-    const w = parseFloat(user.weight);
-    if (h > 0 && w > 0 && bmiEl) {
-      bmiEl.textContent = (w / (h * h)).toFixed(1);
+    if (profileHeightInput) {
+      profileHeightInput.value = user.height;
+      profileHeightInput.disabled = false;
     }
+    if (profileWeightInput) {
+      profileWeightInput.value = user.weight;
+      profileWeightInput.disabled = false;
+    }
+    if (profileSaveBtn) profileSaveBtn.disabled = false;
+    if (profileHint) profileHint.hidden = true;
+
+    const bmi = calcBmi(user.height, user.weight);
+    if (bmiEl) bmiEl.textContent = bmi || "—";
   }
 
   function renderExercises() {
@@ -296,9 +400,28 @@
     const tipEl = document.getElementById("daily-tip");
     const quoteEl = document.getElementById("daily-quote");
     if (!tipEl) return;
-    const dayIndex = new Date().getDate() % tips.length;
-    tipEl.textContent = tips[dayIndex].tip;
-    quoteEl.textContent = tips[dayIndex].quote;
+
+    let lastIndex = -1;
+    try {
+      const stored = sessionStorage.getItem(LAST_TIP_KEY);
+      if (stored !== null) lastIndex = parseInt(stored, 10);
+    } catch (_) {}
+
+    let index = 0;
+    if (tips.length === 1) {
+      index = 0;
+    } else {
+      do {
+        index = Math.floor(Math.random() * tips.length);
+      } while (index === lastIndex);
+    }
+
+    try {
+      sessionStorage.setItem(LAST_TIP_KEY, String(index));
+    } catch (_) {}
+
+    tipEl.textContent = tips[index].tip;
+    quoteEl.textContent = tips[index].quote;
   }
 
   function renderGear() {
@@ -383,6 +506,25 @@
     });
   }
 
+  function initProfileForm() {
+    const profileForm = document.getElementById("profile-form");
+    if (!profileForm) return;
+
+    profileForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      showProfileMessage("");
+      const height = document.getElementById("profile-height-input").value;
+      const weight = document.getElementById("profile-weight-input").value;
+      try {
+        updateProfile(height, weight);
+        showProfileMessage("身体数据已保存", "success");
+        renderUser();
+      } catch (err) {
+        showProfileMessage(err.message, "error");
+      }
+    });
+  }
+
   function init() {
     renderUser();
     renderExercises();
@@ -394,6 +536,7 @@
     initNav();
     initModal();
     initLogForm();
+    initProfileForm();
     switchView("exercises");
   }
 
