@@ -12,6 +12,11 @@
 <body>
   <header class="site-header">
     <a href="#" class="logo">dark duck</a>
+    <div class="auth-actions">
+      <span id="auth-status">未登录</span>
+      <button id="auth-open-btn" class="btn btn-primary">登录 / 注册</button>
+      <button id="auth-logout-btn" class="btn btn-secondary" style="display:none">退出</button>
+    </div>
   </header>
 
   <main>
@@ -37,10 +42,42 @@
         </a>
       </div>
     </section>
-;
     <section class="workspace-grid" aria-label="工作场景展示">
 
     </section>
   </main>
+
+  <div class="auth-modal" id="auth-modal" aria-hidden="true">
+    <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button type="button" class="auth-close" id="auth-close-btn" aria-label="关闭">×</button>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="auth-tab-login">登录</button>
+        <button type="button" class="auth-tab" id="auth-tab-register">注册</button>
+      </div>
+      <div class="auth-body">
+        <div class="auth-message" id="auth-message"></div>
+        <form id="login-form" class="auth-form active">
+          <label>用户名</label>
+          <input type="text" id="login-username" required placeholder="请输入用户名" />
+          <label>密码</label>
+          <input type="password" id="login-password" required placeholder="请输入密码" />
+          <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+        <form id="register-form" class="auth-form">
+          <label>昵称</label>
+          <input type="text" id="register-username" required placeholder="请输入昵称" />
+          <label>身高</label>
+          <input type="number" id="register-height" required placeholder="请输入身高" />
+          <label>体重</label>
+          <input type="number" id="register-weight" required placeholder="请输入体重" />
+          <label>密码</label>
+          <input type="password" id="register-password" required placeholder="请输入密码" />
+          <button type="submit" class="btn btn-primary">注册</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="joining.js"></script>
 </body>
 </html>
