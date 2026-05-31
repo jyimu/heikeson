@@ -159,6 +159,82 @@ body {
   line-height: 1.6;
 }
 
+.xx-media {
+  margin-bottom: 20px;
+}
+
+.xx-video-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--xx-border);
+  background: #0f0f12;
+}
+
+.xx-detail-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.xx-video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1a1a1f 0%, #0f0f12 100%);
+  color: var(--xx-muted);
+  text-align: center;
+  padding: 20px;
+}
+
+.xx-placeholder-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px dashed var(--xx-border);
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  color: var(--xx-accent);
+  margin-bottom: 4px;
+}
+
+.xx-video-placeholder p {
+  font-size: 0.9rem;
+  color: #d4d4d8;
+}
+
+.xx-placeholder-hint {
+  font-size: 0.78rem;
+}
+
+.xx-bili-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--xx-accent);
+  background: var(--xx-accent-soft);
+  color: #fca5a5;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.xx-bili-link:hover {
+  background: var(--xx-accent);
+  color: #fff;
+}
+
 .xx-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -219,6 +295,46 @@ body {
   font-size: 0.8rem;
   color: #fca5a5;
   line-height: 1.55;
+}
+
+.xx-complete-row {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.xx-complete-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: var(--xx-accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 24px var(--xx-glow);
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.xx-complete-btn:hover {
+  transform: translateY(-1px);
+}
+
+.xx-complete-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+.xx-complete-done {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 @media (max-width: 640px) {

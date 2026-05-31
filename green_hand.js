@@ -92,6 +92,7 @@
     plan: "运动建议 & 计划",
     log: "运动日志",
     diet: "膳食建议",
+    rewards: "成就奖励",
     profile: "个人中心",
   };
 
@@ -317,6 +318,12 @@
       })
       .join("");
 
+    if (window.HeikesonRewards) {
+      var result = HeikesonRewards.trackExerciseView(ex.id);
+      HeikesonRewards.notifyNewBadges(result);
+      renderRailStreak();
+    }
+
     if (modalVideo) {
       modalVideo.src = "videos/" + fileIndex + ".mp4";
       modalVideo.loop = true;
@@ -354,6 +361,9 @@
       panel.classList.toggle("active", panel.dataset.view === view);
     });
     if (pageTitle) pageTitle.textContent = viewTitles[view] || "新手锻体区";
+    if (view === "rewards" && typeof renderRewards === "function") renderRewards();
+    if (view === "diet" && typeof updateDietCheckinStatus === "function") updateDietCheckinStatus();
+    if (view === "plan" && typeof updatePlanButtons === "function") updatePlanButtons();
   }
 
   function renderCalendar() {
@@ -463,6 +473,286 @@
       .join("");
   }
 
+  function renderRailStreak() {
+    if (!window.HeikesonRewards) return;
+    var summary = HeikesonRewards.getSummary();
+    var streakEl = document.getElementById("rail-streak");
+    var metaEl = document.getElementById("rail-streak-meta");
+    if (streakEl) streakEl.textContent = String(summary.streak);
+    if (metaEl) {
+      metaEl.textContent =
+        summary.longestStreak > 0
+          ? "最长连续 " + summary.longestStreak + " 天 · 徽章 " + summary.badgeCount + " 枚"
+          : "签到与训练均可累计";
+    }
+  }
+
+  function renderRewards() {
+    if (!window.HeikesonRewards) return;
+    var R = HeikesonRewards;
+    var summary = R.getSummary();
+    var summaryEl = document.getElementById("reward-summary");
+    var fragmentEl = document.getElementById("fragment-grid");
+    var badgeEl = document.getElementById("badge-grid");
+    var synthEl = document.getElementById("synth-list");
+    var checkinStatus = document.getElementById("daily-checkin-status");
+
+    if (summaryEl) {
+      summaryEl.innerHTML =
+        '<div class="gh-reward-stat"><span>连续打卡</span><strong>' +
+        summary.streak +
+        "</strong></div>" +
+        '<div class="gh-reward-stat"><span>最长记录</span><strong>' +
+        summary.longestStreak +
+        "</strong></div>" +
+        '<div class="gh-reward-stat"><span>解锁徽章</span><strong>' +
+        summary.badgeCount +
+        "</strong></div>" +
+        '<div class="gh-reward-stat"><span>合成徽章</span><strong>' +
+        summary.synthCount +
+        "</strong></div>";
+    }
+
+    if (fragmentEl) {
+      var fKeys = Object.keys(R.FRAGMENTS);
+      fragmentEl.innerHTML = fKeys
+        .map(function (key) {
+          var f = R.FRAGMENTS[key];
+          var count = summary.fragments[key] || 0;
+          return (
+            '<div class="gh-fragment-item' +
+            (count ? "" : " empty") +
+            '">' +
+            '<span class="gh-fragment-icon">' +
+            f.icon +
+            "</span>" +
+            '<span class="gh-fragment-name">' +
+            f.name +
+            "</span>" +
+            '<span class="gh-fragment-count">×' +
+            count +
+            "</span></div>"
+          );
+        })
+        .join("");
+    }
+
+    if (badgeEl) {
+      var bKeys = Object.keys(R.BADGES);
+      badgeEl.innerHTML = bKeys
+        .map(function (id) {
+          var b = R.BADGES[id];
+          var unlocked = summary.badges.indexOf(id) !== -1;
+          return (
+            '<div class="gh-badge-item' +
+            (unlocked ? "" : " locked") +
+            '">' +
+            '<span class="gh-badge-icon">' +
+            b.icon +
+            "</span>" +
+            '<span class="gh-badge-name">' +
+            b.name +
+            "</span>" +
+            '<span class="gh-badge-desc">' +
+            b.desc +
+            "</span>" +
+            '<span class="gh-badge-cat">' +
+            b.category +
+            "</span></div>"
+          );
+        })
+        .join("");
+
+      summary.synthesized.forEach(function (sid) {
+        var s = R.SYNTHESIS[sid];
+        if (!s) return;
+        badgeEl.innerHTML +=
+          '<div class="gh-badge-item">' +
+          '<span class="gh-badge-icon">' +
+          s.icon +
+          "</span>" +
+          '<span class="gh-badge-name">' +
+          s.name +
+          "</span>" +
+          '<span class="gh-badge-desc">' +
+          s.desc +
+          '</span><span class="gh-badge-cat">合成</span></div>';
+      });
+    }
+
+    if (synthEl) {
+      var data = R.getUserData();
+      synthEl.innerHTML = Object.keys(R.SYNTHESIS)
+        .map(function (id) {
+          var recipe = R.SYNTHESIS[id];
+          var done = summary.synthesized.indexOf(id) !== -1;
+          var check = R.canSynthesize(data, id);
+          var costHtml = Object.keys(recipe.cost)
+            .map(function (k) {
+              var need = recipe.cost[k];
+              var have = summary.fragments[k] || 0;
+              return (
+                '<span class="' +
+                (have >= need ? "" : "lack") +
+                '">' +
+                R.FRAGMENTS[k].icon +
+                " " +
+                have +
+                "/" +
+                need +
+                "</span>"
+              );
+            })
+            .join("");
+          if (recipe.requires) {
+            recipe.requires.forEach(function (req) {
+              var reqDone = summary.synthesized.indexOf(req) !== -1;
+              costHtml +=
+                '<span class="' +
+                (reqDone ? "" : "lack") +
+                '">需「' +
+                R.SYNTHESIS[req].name +
+                "」</span>";
+            });
+          }
+          return (
+            '<div class="gh-synth-card' +
+            (done ? " done" : "") +
+            '">' +
+            '<span class="gh-synth-icon">' +
+            recipe.icon +
+            "</span>" +
+            '<div class="gh-synth-body"><strong>' +
+            recipe.name +
+            "</strong><p>" +
+            recipe.desc +
+            '</p><div class="gh-synth-cost">' +
+            costHtml +
+            "</div></div>" +
+            (done
+              ? '<span class="gh-plan-done-btn done">已合成</span>'
+              : '<button type="button" class="gh-btn gh-synth-btn" data-synth="' +
+                id +
+                '" ' +
+                (check.ok ? "" : "disabled") +
+                ">合成</button>") +
+            "</div>"
+          );
+        })
+        .join("");
+
+      synthEl.querySelectorAll(".gh-synth-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var result = R.synthesize(btn.dataset.synth);
+          if (result.ok) {
+            R.showToast("✨ 合成成功：「" + result.recipe.name + "」", "success");
+            renderRewards();
+            renderRailStreak();
+          } else {
+            R.showToast(result.reason || "合成失败", "error");
+          }
+        });
+      });
+    }
+
+    if (checkinStatus) {
+      var today = new Date();
+      var todayStr =
+        today.getFullYear() +
+        "-" +
+        String(today.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(today.getDate()).padStart(2, "0");
+      var data2 = R.getUserData();
+      var checked = data2.checkInDates.indexOf(todayStr) !== -1;
+      checkinStatus.textContent = checked
+        ? "今日已签到，当前连续 " + summary.streak + " 天"
+        : "点击上方按钮完成今日签到，连续打卡可解锁坚持类徽章";
+    }
+
+    renderRailStreak();
+  }
+
+  function updateDietCheckinStatus() {
+    if (!window.HeikesonRewards) return;
+    var el = document.getElementById("diet-checkin-status");
+    var btn = document.getElementById("diet-checkin-btn");
+    if (!el) return;
+    var today = new Date();
+    var todayStr =
+      today.getFullYear() +
+      "-" +
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(today.getDate()).padStart(2, "0");
+    var data = HeikesonRewards.getUserData();
+    var done = data.stats.dietCheckins.indexOf(todayStr) !== -1;
+    el.textContent = done
+      ? "今日已打卡 · 累计 " + data.stats.dietCheckins.length + " 天"
+      : "今日尚未打卡";
+    if (btn) {
+      btn.disabled = done;
+      btn.textContent = done ? "今日已打卡" : "今日饮食打卡";
+    }
+  }
+
+  function updatePlanButtons() {
+    if (!window.HeikesonRewards) return;
+    var data = HeikesonRewards.getUserData();
+    document.querySelectorAll(".gh-plan-done-btn").forEach(function (btn) {
+      var day = btn.dataset.planDay;
+      var done = data.stats.planDaysCompleted.indexOf(day) !== -1;
+      btn.classList.toggle("done", done);
+      btn.textContent = done ? "已完成 ✓" : "完成今日";
+      btn.disabled = done;
+    });
+  }
+
+  function initRewards() {
+    if (!window.HeikesonRewards) return;
+    var R = HeikesonRewards;
+
+    var checkinBtn = document.getElementById("daily-checkin-btn");
+    if (checkinBtn) {
+      checkinBtn.addEventListener("click", function () {
+        var result = R.dailyCheckIn();
+        R.notifyNewBadges(result);
+        if (result.newFragments && result.newFragments.length) {
+          R.showToast("📅 签到成功，获得坚持碎片", "success");
+        } else {
+          R.showToast("今日已签到过啦", "success");
+        }
+        renderRewards();
+      });
+    }
+
+    var dietBtn = document.getElementById("diet-checkin-btn");
+    if (dietBtn) {
+      dietBtn.addEventListener("click", function () {
+        var result = R.trackDietCheckin();
+        R.notifyNewBadges(result);
+        R.showToast("🥗 饮食打卡成功", "success");
+        updateDietCheckinStatus();
+        renderRailStreak();
+      });
+    }
+
+    document.querySelectorAll(".gh-plan-done-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (btn.disabled) return;
+        var result = R.trackPlanDay(btn.dataset.planDay);
+        R.notifyNewBadges(result);
+        R.showToast("✅ 计划日完成，获得力量碎片", "success");
+        updatePlanButtons();
+        renderRailStreak();
+      });
+    });
+
+    renderRailStreak();
+    updateDietCheckinStatus();
+    updatePlanButtons();
+  }
+
   function renderLogs() {
     if (!logList) return;
     const logs = getLogs();
@@ -523,6 +813,12 @@
       saveLogs(logs);
       logForm.reset();
       renderLogs();
+      if (window.HeikesonRewards) {
+        var result = HeikesonRewards.trackWorkoutLog(type);
+        HeikesonRewards.notifyNewBadges(result);
+        HeikesonRewards.showToast("训练日志已保存，获得对应碎片", "success");
+        renderRailStreak();
+      }
     });
   }
 
@@ -557,6 +853,7 @@
     initModal();
     initLogForm();
     initProfileForm();
+    initRewards();
     switchView("exercises");
   }
 

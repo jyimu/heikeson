@@ -35,6 +35,10 @@
           <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
           膳食建议
         </button>
+        <button type="button" class="gh-nav-item" data-view="rewards">
+          <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 22l5-3 5 3-1.21-8.11"/></svg>
+          成就奖励
+        </button>
         <button type="button" class="gh-nav-item" data-view="profile">
           <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           个人中心
@@ -67,9 +71,18 @@
         <section class="gh-panel-view" data-view="plan">
           <div class="gh-content-card">
             <h2>本周新手计划（3 天）</h2>
-            <div class="gh-plan-day"><strong>周一</strong><span>热身 5 分钟 → 深蹲 3×12 → 俯卧撑 3×10 → 拉伸 5 分钟</span></div>
-            <div class="gh-plan-day"><strong>周三</strong><span>热身 5 分钟 → 弓步蹲 3×10 → 平板支撑 3×30 秒 → 开合跳 3×20</span></div>
-            <div class="gh-plan-day"><strong>周五</strong><span>复习全部动作，每组减 2 次，注重动作质量</span></div>
+            <div class="gh-plan-day gh-plan-day--action">
+              <div><strong>周一</strong><span>热身 5 分钟 → 深蹲 3×12 → 俯卧撑 3×10 → 拉伸 5 分钟</span></div>
+              <button type="button" class="gh-plan-done-btn" data-plan-day="mon">完成今日</button>
+            </div>
+            <div class="gh-plan-day gh-plan-day--action">
+              <div><strong>周三</strong><span>热身 5 分钟 → 弓步蹲 3×10 → 平板支撑 3×30 秒 → 开合跳 3×20</span></div>
+              <button type="button" class="gh-plan-done-btn" data-plan-day="wed">完成今日</button>
+            </div>
+            <div class="gh-plan-day gh-plan-day--action">
+              <div><strong>周五</strong><span>复习全部动作，每组减 2 次，注重动作质量</span></div>
+              <button type="button" class="gh-plan-done-btn" data-plan-day="fri">完成今日</button>
+            </div>
           </div>
           <div class="gh-content-card">
             <h2>运动建议</h2>
@@ -116,6 +129,37 @@
             <div class="gh-plan-day"><strong>晚餐</strong><span>红薯 + 豆腐汤 + 混合沙拉</span></div>
             <div class="gh-plan-day"><strong>加餐</strong><span>希腊酸奶 / 坚果一小把（训练后）</span></div>
           </div>
+          <div class="gh-content-card">
+            <h2>饮食打卡</h2>
+            <p class="gh-diet-checkin-desc">记录今日是否按原则进食，累计打卡可解锁膳食徽章与合成碎片。</p>
+            <button type="button" class="gh-btn" id="diet-checkin-btn">今日饮食打卡</button>
+            <p class="gh-diet-checkin-status" id="diet-checkin-status"></p>
+          </div>
+        </section>
+
+        <!-- 成就奖励 -->
+        <section class="gh-panel-view" data-view="rewards">
+          <div class="gh-reward-summary" id="reward-summary"></div>
+          <div class="gh-content-card">
+            <div class="gh-reward-head">
+              <h2>每日打卡</h2>
+              <button type="button" class="gh-btn" id="daily-checkin-btn">今日签到</button>
+            </div>
+            <p class="gh-reward-hint" id="daily-checkin-status"></p>
+          </div>
+          <div class="gh-content-card">
+            <h2>碎片背包</h2>
+            <div class="gh-fragment-grid" id="fragment-grid"></div>
+          </div>
+          <div class="gh-content-card">
+            <h2>徽章图鉴</h2>
+            <div class="gh-badge-grid" id="badge-grid"></div>
+          </div>
+          <div class="gh-content-card">
+            <h2>徽章合成</h2>
+            <p class="gh-reward-hint">收集碎片后可合成更高阶黑鸭徽章，每种合成徽章仅可获得一次。</p>
+            <div class="gh-synth-list" id="synth-list"></div>
+          </div>
         </section>
 
         <!-- 个人中心 -->
@@ -142,6 +186,15 @@
 
     <!-- 右侧栏 -->
     <aside class="gh-rail">
+      <div class="gh-widget" id="reward-streak-widget">
+        <div class="gh-widget-title">连续打卡</div>
+        <div class="gh-streak-display">
+          <span class="gh-streak-num" id="rail-streak">0</span>
+          <span class="gh-streak-unit">天</span>
+        </div>
+        <p class="gh-streak-meta" id="rail-streak-meta">签到与训练均可累计</p>
+      </div>
+
       <div class="gh-widget">
         <div class="gh-widget-title">运动小贴士 &amp; 鸡汤</div>
         <p class="gh-tip" id="daily-tip"></p>
@@ -187,6 +240,7 @@
     </div>
   </div>
 
+  <script src="rewards.js"></script>
   <script src="green_hand.js"></script>
 
   <script src="ai_chat_widget.js"></script>

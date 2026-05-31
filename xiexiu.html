@@ -31,6 +31,27 @@
           <h2 id="xx-detail-title">—</h2>
           <p id="xx-detail-summary" class="xx-detail-summary"></p>
         </div>
+        <div class="xx-media" id="xx-detail-media">
+          <div class="xx-video-wrap">
+            <video
+              id="xx-detail-video"
+              class="xx-detail-video"
+              controls
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            ></video>
+            <div class="xx-video-placeholder" id="xx-video-placeholder" hidden>
+              <span class="xx-placeholder-icon">▶</span>
+              <p>暂无本地演示视频</p>
+              <span class="xx-placeholder-hint">请通过下方 B 站链接跟练</span>
+            </div>
+          </div>
+          <a id="xx-detail-link" class="xx-bili-link" href="#" target="_blank" rel="noopener noreferrer">
+            在 B 站观看教学视频
+          </a>
+        </div>
         <div class="xx-detail-grid">
           <div class="xx-card">
             <h3>邪修训练方案</h3>
@@ -50,10 +71,15 @@
           </div>
         </div>
         <p class="xx-detail-warn">邪修方案强度较高，单次训练后该部位至少休息 48 小时，不建议长期连续使用。</p>
+        <div class="xx-complete-row">
+          <button type="button" class="xx-complete-btn" id="xx-complete-btn" hidden>完成本部位邪修</button>
+          <span class="xx-complete-done" id="xx-complete-done" hidden>本部位已完成 ✓</span>
+        </div>
       </section>
     </main>
   </div>
 
+  <script src="rewards.js"></script>
   <script src="xiexiu_page.js"></script>
 </body>
 </html>

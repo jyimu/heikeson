@@ -1,10 +1,12 @@
 (function () {
   const SESSION_KEY = "heikeson_currentUser";
+  const VIDEO_COUNT = 6;
 
   const parts = [
     {
       id: "biceps",
       name: "肱二头肌",
+      bilibiliUrl: "https://www.bilibili.com/video/BV1Ly4y1e7vU",
       summary: "以肘屈为主的高频刺激，侧重峰值收缩与离心控制，适合短期提升手臂围度。",
       plan: "4 组 × 8–10 次 · 组间休息 60 秒 · 最后 1 组递减至力竭（降 20% 重量再做 6–8 次）",
       moves: ["杠铃弯举", "哑铃锤式弯举", "集中弯举"],
@@ -14,11 +16,12 @@
         "选用能标准完成 8–10 次的重量",
       ],
       science:
-        "肱二头肌为单关节肌，高张力下的时间 under tension 与接近力竭的代谢压力，可促进肌蛋白合成；研究支持 6–12 次重复范围对 hypertrophy 有效。",
+        "肱二头肌为单关节肌，高张力下的 time under tension 与接近力竭的代谢压力，可促进肌蛋白合成；研究支持 6–12 次重复范围对 hypertrophy 有效。",
     },
     {
       id: "triceps",
       name: "肱三头肌",
+      bilibiliUrl: "https://www.bilibili.com/video/BV1bo9XBYEkt",
       summary: "三头占上臂体积约 2/3，推举与臂屈伸组合可快速拉高手臂视觉维度。",
       plan: "4 组 × 10–12 次 · 组间休息 45–60 秒 · 超级组：窄距俯卧撑 + 凳上臂屈伸各 1 组",
       moves: ["窄距俯卧撑", "哑铃过头臂屈伸", "绳索下压"],
@@ -33,6 +36,7 @@
     {
       id: "chest",
       name: "胸肌",
+      bilibiliUrl: "https://www.bilibili.com/video/BV1JEkQBnEyR",
       summary: "水平推与上斜推结合，强调全幅度与肩胛稳定，提升胸大肌厚度与分离度。",
       plan: "5 组 × 6–10 次 · 组间休息 90 秒 · 上斜 + 水平各 2 个主项，收尾 1 组飞鸟",
       moves: ["上斜哑铃卧推", "标准俯卧撑/杠铃卧推", "哑铃飞鸟"],
@@ -47,6 +51,7 @@
     {
       id: "back",
       name: "背部",
+      bilibiliUrl: "https://www.bilibili.com/video/BV1cpiDBTEUo",
       summary: "垂直拉 + 水平拉双模式，优先背阔肌宽度与厚度，兼顾后束与中下斜方肌。",
       plan: "4 组 × 8–12 次 · 组间休息 75 秒 · 先拉后划，各 2 个动作 · 最后 1 组暂停拉",
       moves: ["引体向上/高位下拉", "单臂哑铃划船", "直臂下压"],
@@ -61,6 +66,7 @@
     {
       id: "shoulders",
       name: "肩部",
+      bilibiliUrl: "https://www.bilibili.com/video/BV1GPYXzTEvm",
       summary: "三角肌前/中/后束分项刺激，侧平举与推举配合，打造立体肩型。",
       plan: "各束 3 组 × 12–15 次 · 组间休息 45 秒 · 推举 1 项 + 侧平举 + 反向飞鸟",
       moves: ["哑铃推举", "侧平举", "俯身反向飞鸟"],
@@ -75,6 +81,7 @@
     {
       id: "abs",
       name: "腹肌",
+      bilibiliUrl: "https://www.bilibili.com/video/BV12QQsBLExF",
       summary: "抗伸展 + 卷腹类组合，强调腹直肌与腹斜肌协调，配合呼吸与核心张力。",
       plan: "3 轮循环 · 每动作 30–45 秒 · 轮间休息 30 秒 · 平板支撑 + 卷腹 + 死虫",
       moves: ["平板支撑", "卷腹/反向卷腹", "死虫式"],
@@ -89,6 +96,7 @@
     {
       id: "thighs",
       name: "大腿",
+      bilibiliUrl: "https://www.bilibili.com/video/BV1N4qhBdEXY",
       summary: "股四头肌 + 腘绳肌双模式，深蹲与硬拉变式为主，下肢力量与围度同步提升。",
       plan: "4 组 × 8–12 次 · 组间休息 90–120 秒 · 深蹲/弓步 + 罗马尼亚硬拉 · 末组慢速离心",
       moves: ["杠铃/哑铃深蹲", "保加利亚分腿蹲", "罗马尼亚硬拉"],
@@ -110,9 +118,21 @@
   const movesEl = document.getElementById("xx-detail-moves");
   const pointsEl = document.getElementById("xx-detail-points");
   const scienceEl = document.getElementById("xx-detail-science");
+  const videoEl = document.getElementById("xx-detail-video");
+  const placeholderEl = document.getElementById("xx-video-placeholder");
+  const linkEl = document.getElementById("xx-detail-link");
   const userEl = document.getElementById("xx-user");
+  const completeBtn = document.getElementById("xx-complete-btn");
+  const completeDone = document.getElementById("xx-complete-done");
+
+  var currentPartId = null;
 
   if (!grid) return;
+
+  function getVideoSrc(partIndex) {
+    const fileIndex = (partIndex % VIDEO_COUNT) + 1;
+    return "videos/" + fileIndex + ".mp4";
+  }
 
   function getSession() {
     try {
@@ -137,11 +157,69 @@
       .join("");
   }
 
+  function extractBvid(url) {
+    const match = (url || "").match(/BV[\w]+/i);
+    return match ? match[0] : "B 站视频";
+  }
+
+  function showVideoPlaceholder() {
+    if (!videoEl || !placeholderEl) return;
+    videoEl.hidden = true;
+    videoEl.pause();
+    videoEl.removeAttribute("src");
+    videoEl.load();
+    placeholderEl.hidden = false;
+  }
+
+  function showVideo(src) {
+    if (!videoEl || !placeholderEl) return;
+    placeholderEl.hidden = true;
+    videoEl.hidden = false;
+    videoEl.onerror = showVideoPlaceholder;
+    videoEl.onloadeddata = function () {
+      placeholderEl.hidden = true;
+      videoEl.hidden = false;
+    };
+    videoEl.src = src;
+    videoEl.load();
+  }
+
+  function renderMedia(part, partIndex) {
+    if (linkEl) {
+      linkEl.href = part.bilibiliUrl;
+      linkEl.textContent = "B 站教学 · " + extractBvid(part.bilibiliUrl);
+    }
+    showVideo(getVideoSrc(partIndex));
+  }
+
+  function updateCompleteButton(partId) {
+    if (!completeBtn || !completeDone) return;
+    if (!partId) {
+      completeBtn.hidden = true;
+      completeDone.hidden = true;
+      return;
+    }
+    var done = false;
+    if (window.HeikesonRewards) {
+      var data = HeikesonRewards.getUserData();
+      done = data.stats.xiexiuParts.indexOf(partId) !== -1;
+    }
+    completeBtn.hidden = done;
+    completeDone.hidden = !done;
+    if (!done) {
+      completeBtn.disabled = false;
+      completeBtn.textContent = "完成本部位邪修";
+    }
+  }
+
   function selectPart(partId) {
-    const part = parts.find(function (p) {
+    const partIndex = parts.findIndex(function (p) {
       return p.id === partId;
     });
-    if (!part) return;
+    if (partIndex === -1) return;
+
+    currentPartId = partId;
+    const part = parts[partIndex];
 
     grid.querySelectorAll(".xx-part-btn").forEach(function (btn) {
       btn.classList.toggle("active", btn.dataset.part === partId);
@@ -153,9 +231,11 @@
     renderList(movesEl, part.moves);
     renderList(pointsEl, part.points);
     scienceEl.textContent = part.science;
+    renderMedia(part, partIndex);
 
     detail.hidden = false;
     detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    updateCompleteButton(partId);
   }
 
   grid.innerHTML = parts
@@ -175,6 +255,16 @@
       selectPart(btn.dataset.part);
     });
   });
+
+  if (completeBtn) {
+    completeBtn.addEventListener("click", function () {
+      if (!currentPartId || !window.HeikesonRewards) return;
+      var result = HeikesonRewards.trackXiexiuPart(currentPartId);
+      HeikesonRewards.notifyNewBadges(result);
+      HeikesonRewards.showToast("⚡ 邪修完成，获得邪修碎片", "success");
+      updateCompleteButton(currentPartId);
+    });
+  }
 
   renderUser();
 })();
