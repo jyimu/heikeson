@@ -29,18 +29,34 @@ body {
 }
 
 .site-header {
-  padding: 28px 48px;
+  padding: 20px 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
 }
 
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.site-mascot-img {
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .logo {
-  font-size: 1.125rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--text);
-  text-decoration: none;
   letter-spacing: -0.02em;
 }
 
@@ -180,9 +196,23 @@ main {
 
 @media (max-width: 560px) {
   .site-header {
-    padding: 20px 24px;
+    padding: 16px 24px;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .site-mascot-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+  }
+
+  .auth-actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 
   main {
