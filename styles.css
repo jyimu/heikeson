@@ -145,6 +145,151 @@ main {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
 
+.btn-xiexiu {
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-xiexiu:hover {
+  background: #111;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.xiexiu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  display: none;
+  background: #000;
+}
+
+.xiexiu-overlay.active {
+  display: block;
+}
+
+.xiexiu-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.xiexiu-quote-img {
+  max-width: min(92vw, 720px);
+  max-height: calc(100vh - 120px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.xiexiu-actions {
+  position: absolute;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%) translateY(12px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.xiexiu-actions.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.xiexiu-actions .btn {
+  cursor: pointer;
+  border: none;
+}
+
+.xiexiu-risk {
+  width: min(92vw, 560px);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.xiexiu-risk.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.xiexiu-risk-card {
+  background: #fff;
+  color: #111;
+  border-radius: 16px;
+  padding: 28px 24px 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.xiexiu-risk-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.xiexiu-risk-lead {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.xiexiu-risk-list {
+  padding-left: 1.2em;
+  margin-bottom: 14px;
+}
+
+.xiexiu-risk-list li {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.xiexiu-risk-list li:last-child {
+  margin-bottom: 0;
+}
+
+.xiexiu-risk-note {
+  font-size: 0.82rem;
+  color: #666;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.xiexiu-risk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.xiexiu-risk-actions .btn {
+  cursor: pointer;
+  border: none;
+}
+
+body.xiexiu-open {
+  overflow: hidden;
+}
+
 .btn-muted {
   background: var(--btn-muted);
   color: var(--btn-muted-text);

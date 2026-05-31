@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>邪修锻体 · 黑鸭 dark duck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="xiexiu_page.css" />
+</head>
+<body class="xx-body">
+  <div class="xx-app">
+    <header class="xx-header">
+      <a href="index.html" class="xx-back">← 返回主界面</a>
+      <div class="xx-header-center">
+        <span class="xx-badge">邪修</span>
+        <h1 class="xx-title">部位专项锻体</h1>
+        <p class="xx-subtitle">选择今日主攻部位，获取高强度科学训练方案</p>
+      </div>
+      <div class="xx-user" id="xx-user">未登录</div>
+    </header>
+
+    <main class="xx-main">
+      <section class="xx-picker" aria-label="选择锻炼部位">
+        <div class="xx-part-grid" id="xx-part-grid"></div>
+      </section>
+
+      <section class="xx-detail" id="xx-detail" hidden aria-live="polite">
+        <div class="xx-detail-head">
+          <h2 id="xx-detail-title">—</h2>
+          <p id="xx-detail-summary" class="xx-detail-summary"></p>
+        </div>
+        <div class="xx-detail-grid">
+          <div class="xx-card">
+            <h3>邪修训练方案</h3>
+            <p id="xx-detail-plan" class="xx-plan"></p>
+          </div>
+          <div class="xx-card">
+            <h3>推荐动作</h3>
+            <ul id="xx-detail-moves" class="xx-moves"></ul>
+          </div>
+          <div class="xx-card xx-card--wide">
+            <h3>技术要点</h3>
+            <ul id="xx-detail-points" class="xx-points"></ul>
+          </div>
+          <div class="xx-card xx-card--wide">
+            <h3>科学依据</h3>
+            <p id="xx-detail-science" class="xx-science"></p>
+          </div>
+        </div>
+        <p class="xx-detail-warn">邪修方案强度较高，单次训练后该部位至少休息 48 小时，不建议长期连续使用。</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="xiexiu_page.js"></script>
+</body>
+</html>
