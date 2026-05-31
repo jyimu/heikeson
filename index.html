@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>黑鸭-dark duck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="#" class="site-brand" aria-label="dark duck 首页">
+      <img src="assets/12.jpg" alt="" class="site-mascot-img" width="832" height="830" />
+      <span class="logo">dark duck</span>
+    </a>
+    <div class="auth-actions">
+      <span id="auth-status">未登录</span>
+      <button id="auth-open-btn" class="btn btn-primary">登录 / 注册</button>
+      <button id="auth-logout-btn" class="btn btn-secondary" style="display:none">退出</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 class="hero-title">黑鸭-dark duck</h1>
+      <p class="hero-subtitle">黑鸦锻体制,为了量身定制</p>
+
+      <div class="cta-row">
+        <div>
+        <h2>你是?</h2>
+        </div>
+        <a href="green_hand.html" class="btn btn-primary" >
+          <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.5L10.5 5.5 10.5 11 3 11 3 5.5 3 5.5ZM10.5 12.5L3 12.5 3 18.5 10.5 18.5 10.5 12.5 10.5 12.5ZM11.5 5.5L21 5.5 21 11 11.5 11 11.5 5.5 11.5 5.5ZM21 12.5L11.5 12.5 11.5 18.5 21 18.5 21 12.5 21 12.5Z"/></svg>
+          新手(greenhand)
+        </a>
+        <a href="green_hand.html" class="btn btn-primary">
+          <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.05 12.65c-.03-2.58 2.1-3.82 2.2-3.89-1.2-1.75-3.07-1.99-3.73-2.02-1.59-.16-3.1.94-3.9.94-.8 0-2.03-.92-3.34-.89-1.72.03-3.3 1-4.18 2.54-1.78 3.09-.46 7.66 1.28 10.17.85 1.23 1.86 2.61 3.19 2.56 1.28-.05 1.76-.83 3.3-.83 1.54 0 1.97.83 3.31.8 1.37-.02 2.24-1.25 3.08-2.49.97-1.42 1.37-2.8 1.39-2.87-.03-.01-2.67-1.02-2.7-4.06zM14.3 4.2c.7-.85 1.17-2.03 1.04-3.2-1 .04-2.21.67-2.93 1.51-.65.75-1.22 1.95-1.07 3.1 1.13.09 2.28-.57 2.96-1.41z"/></svg>
+          中手(intermediate)
+        </a>
+        <a href="green_hand.html" class="btn btn-primary">
+          <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.6 9.48l1.84-3.18c.16-.27.07-.62-.2-.78-.27-.16-.62-.07-.78.2l-1.84 3.18c-2.86-1.21-6.08-1.21-8.94 0L5.84 5.72c-.16-.27-.51-.36-.78-.2-.27.16-.36.51-.2.78L6.7 9.48C3.34 11.8 1.2 15.58 1 19.78h22c-.2-4.2-2.34-7.98-5.4-10.3zM7 17.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>
+          老手(expert)
+        </a>
+      </div>
+
+      <div class="cta-row" style="margin-top: 24px">
+        <a href="douyin.html" class="btn btn-secondary">
+          <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          抖音视频分析
+        </a>
+        <button type="button" class="btn btn-xiexiu" id="xiexiu-open-btn">邪修</button>
+      </div>
+    </section>
+
+    <section class="workspace-showcase" aria-label="健身场景展示">
+      <div class="workspace-grid">
+        <div class="workspace-video-card">
+          <video class="workspace-video" src="videos/1.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 1"></video>
+        </div>
+        <div class="workspace-video-card">
+          <video class="workspace-video" src="videos/2.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 2"></video>
+        </div>
+        <div class="workspace-video-card">
+          <video class="workspace-video" src="videos/3.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 3"></video>
+        </div>
+        <div class="workspace-video-card">
+          <video class="workspace-video" src="videos/4.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 4"></video>
+        </div>
+        <div class="workspace-video-card">
+          <video class="workspace-video" src="videos/5.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 5"></video>
+        </div>
+        <div class="workspace-video-card">
+          <video class="workspace-video" src="videos/6.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 6"></video>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="auth-modal" id="auth-modal" aria-hidden="true">
+    <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <button type="button" class="auth-close" id="auth-close-btn" aria-label="关闭">×</button>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="auth-tab-login">登录</button>
+        <button type="button" class="auth-tab" id="auth-tab-register">注册</button>
+      </div>
+      <div class="auth-body">
+        <div class="auth-message" id="auth-message"></div>
+        <form id="login-form" class="auth-form active">
+          <label>用户名</label>
+          <input type="text" id="login-username" required placeholder="请输入用户名" />
+          <label>密码</label>
+          <input type="password" id="login-password" required placeholder="请输入密码" />
+          <button type="submit" class="btn btn-primary">登录</button>
+        </form>
+        <form id="register-form" class="auth-form">
+          <label>昵称</label>
+          <input type="text" id="register-username" required placeholder="请输入昵称" />
+          <label>身高</label>
+          <input type="number" id="register-height" required placeholder="请输入身高" />
+          <label>体重</label>
+          <input type="number" id="register-weight" required placeholder="请输入体重" />
+          <label>密码</label>
+          <input type="password" id="register-password" required placeholder="请输入密码" />
+          <button type="submit" class="btn btn-primary">注册</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="xiexiu-overlay" id="xiexiu-overlay" aria-hidden="true">
+    <div class="xiexiu-screen" role="dialog" aria-modal="true" aria-label="邪修">
+      <img
+        id="xiexiu-quote-img"
+        src="assets/xiexiu-quote.jpg"
+        alt="我自己想的在做一件很慢很久的事"
+        class="xiexiu-quote-img"
+      />
+      <div class="xiexiu-actions" id="xiexiu-actions" hidden>
+        <button type="button" class="btn btn-secondary" id="xiexiu-back-btn">返回主界面</button>
+        <button type="button" class="btn btn-primary" id="xiexiu-continue-btn">执意邪修</button>
+      </div>
+      <div class="xiexiu-risk" id="xiexiu-risk" hidden>
+        <div class="xiexiu-risk-card">
+          <h2 class="xiexiu-risk-title">风险提示</h2>
+          <div class="xiexiu-risk-body">
+            <p class="xiexiu-risk-lead">在继续「邪修」训练前，请仔细阅读以下说明：</p>
+            <ul class="xiexiu-risk-list">
+              <li>本路径中的训练建议依据运动生理学、力量训练与恢复相关研究整理，<strong>符合主流科学依据</strong>，有助于提高训练刺激与肌肉适应效率。</li>
+              <li>在严格执行的前提下，<strong>可能在较短时间内感受到肌肉力量与围度的提升</strong>。</li>
+              <li>但邪修方案往往强度与密度较高，<strong>不建议长期持续执行</strong>，否则可能增加过度训练、关节劳损与恢复不足等风险。</li>
+              <li>如有基础疾病、旧伤或感到明显不适，请先咨询医生或专业教练，并优先选择常规训练路径。</li>
+            </ul>
+            <p class="xiexiu-risk-note">请根据自身情况理性跟练，量力而行。</p>
+          </div>
+          <div class="xiexiu-risk-actions">
+            <button type="button" class="btn btn-secondary" id="xiexiu-risk-back-btn">返回</button>
+            <button type="button" class="btn btn-primary" id="xiexiu-risk-confirm-btn">我已知晓，继续邪修</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="joining.js"></script>
+  <script src="xiexiu.js"></script>
+
+  <script src="ai_chat_widget.js"></script>
+<script>
+  AIChatWidget.init({
+    apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
+    model: 'glm-4-flashx-250414',                // 可选
+    temperature: 1,                  // 可选
+    systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新手锻体 · 黑鸭 dark duck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="green_hand.css" />
+</head>
+<body class="gh-body">
+  <div class="gh-app">
+    <!-- 侧边栏 -->
+    <aside class="gh-sidebar">
+      <a href="index.html" class="gh-brand">
+        <span class="gh-brand-mark">DD</span>
+        dark duck
+      </a>
+
+      <nav class="gh-nav" aria-label="功能导航">
+        <button type="button" class="gh-nav-item active" data-view="exercises">
+          <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          动作训练
+        </button>
+        <button type="button" class="gh-nav-item" data-view="plan">
+          <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          运动建议&amp;计划
+        </button>
+        <button type="button" class="gh-nav-item" data-view="log">
+          <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          运动日志
+        </button>
+        <button type="button" class="gh-nav-item" data-view="diet">
+          <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          膳食建议
+        </button>
+        <button type="button" class="gh-nav-item" data-view="profile">
+          <svg class="gh-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          个人中心
+        </button>
+      </nav>
+
+      <div class="gh-user">
+        <div class="gh-avatar" id="user-avatar">?</div>
+        <div>
+          <div class="gh-user-name" id="user-name">未登录</div>
+          <div class="gh-user-meta" id="user-meta">请先登录</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <div class="gh-center">
+      <header class="gh-topbar">
+        <h1 id="page-title">新手动作库</h1>
+        <a href="index.html" class="gh-back-home">← 返回首页</a>
+      </header>
+
+      <main class="gh-main">
+        <!-- 动作训练：六个模块 -->
+        <section class="gh-panel-view active" data-view="exercises">
+          <div class="gh-exercise-grid" id="exercise-grid"></div>
+        </section>
+
+        <!-- 运动建议 & 计划 -->
+        <section class="gh-panel-view" data-view="plan">
+          <div class="gh-content-card">
+            <h2>本周新手计划（3 天）</h2>
+            <div class="gh-plan-day"><strong>周一</strong><span>热身 5 分钟 → 深蹲 3×12 → 俯卧撑 3×10 → 拉伸 5 分钟</span></div>
+            <div class="gh-plan-day"><strong>周三</strong><span>热身 5 分钟 → 弓步蹲 3×10 → 平板支撑 3×30 秒 → 开合跳 3×20</span></div>
+            <div class="gh-plan-day"><strong>周五</strong><span>复习全部动作，每组减 2 次，注重动作质量</span></div>
+          </div>
+          <div class="gh-content-card">
+            <h2>运动建议</h2>
+            <ul>
+              <li>每次训练前完成 5 分钟动态热身，结束后静态拉伸。</li>
+              <li>感到关节疼痛而非肌肉酸胀时，应停止并休息。</li>
+              <li>保证睡眠 7 小时以上，肌肉在休息时生长。</li>
+              <li>循序渐进：每周总训练量增幅不超过 10%。</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 运动日志 -->
+        <section class="gh-panel-view" data-view="log">
+          <div class="gh-content-card">
+            <h2>记录今日训练</h2>
+            <form class="gh-log-form" id="log-form">
+              <select id="log-type">
+                <option value="力量">力量训练</option>
+                <option value="有氧">有氧训练</option>
+                <option value="拉伸">拉伸恢复</option>
+              </select>
+              <textarea id="log-note" placeholder="例如：完成深蹲 3 组，最后一组有点吃力…" required></textarea>
+              <button type="submit" class="gh-btn">保存日志</button>
+            </form>
+            <div class="gh-log-list" id="log-list"></div>
+          </div>
+        </section>
+
+        <!-- 膳食建议 -->
+        <section class="gh-panel-view" data-view="diet">
+          <div class="gh-content-card">
+            <h2>新手饮食原则</h2>
+            <ul>
+              <li>每餐包含优质蛋白（鸡蛋、鸡胸肉、豆腐）+ 复合碳水（燕麦、糙米）+ 蔬菜。</li>
+              <li>训练前 1–2 小时少量碳水；训练后 30 分钟内补充蛋白。</li>
+              <li>每日饮水 ≥ 2000ml，运动日适当增加。</li>
+            </ul>
+          </div>
+          <div class="gh-content-card">
+            <h2>参考一日食谱</h2>
+            <div class="gh-plan-day"><strong>早餐</strong><span>燕麦粥 + 水煮蛋 2 个 + 香蕉半根</span></div>
+            <div class="gh-plan-day"><strong>午餐</strong><span>糙米饭 + 清炒西兰花 + 鸡胸肉 150g</span></div>
+            <div class="gh-plan-day"><strong>晚餐</strong><span>红薯 + 豆腐汤 + 混合沙拉</span></div>
+            <div class="gh-plan-day"><strong>加餐</strong><span>希腊酸奶 / 坚果一小把（训练后）</span></div>
+          </div>
+        </section>
+
+        <!-- 个人中心 -->
+        <section class="gh-panel-view" data-view="profile">
+          <div class="gh-content-card">
+            <h2>身体数据</h2>
+            <div class="gh-profile-grid">
+              <div class="gh-stat"><span>昵称</span><strong id="profile-name">—</strong></div>
+              <div class="gh-stat"><span>BMI 指数</span><strong id="profile-bmi">—</strong></div>
+            </div>
+            <form class="gh-log-form gh-profile-form" id="profile-form">
+              <label for="profile-height-input">身高 (cm)</label>
+              <input type="number" id="profile-height-input" min="50" max="250" step="0.1" placeholder="例如 170" required disabled />
+              <label for="profile-weight-input">体重 (kg)</label>
+              <input type="number" id="profile-weight-input" min="20" max="300" step="0.1" placeholder="例如 65" required disabled />
+              <p id="profile-message" class="gh-profile-message" hidden></p>
+              <button type="submit" class="gh-btn" id="profile-save-btn" disabled>保存修改</button>
+            </form>
+            <p class="gh-profile-hint" id="profile-hint">请先在首页登录后再修改身体数据。</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- 右侧栏 -->
+    <aside class="gh-rail">
+      <div class="gh-widget">
+        <div class="gh-widget-title">运动小贴士 &amp; 鸡汤</div>
+        <p class="gh-tip" id="daily-tip"></p>
+        <p class="gh-tip-quote" id="daily-quote"></p>
+      </div>
+
+      <div class="gh-widget">
+        <div class="gh-widget-title">日历 &amp; 天气</div>
+        <div class="gh-calendar-header">
+          <span id="calendar-month"></span>
+        </div>
+        <div class="gh-calendar-grid" id="calendar-grid"></div>
+        <div class="gh-weather">
+          <span class="gh-weather-icon" id="weather-icon">☀️</span>
+          <div>
+            <div class="gh-weather-temp" id="weather-temp">24°C</div>
+            <div class="gh-weather-desc" id="weather-desc">加载中…</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gh-widget">
+        <div class="gh-widget-title">运动装备推荐</div>
+        <div class="gh-gear-list" id="gear-list"></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- 推荐视频卡片 -->
+  <div class="gh-modal" id="video-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="gh-modal-card">
+      <div class="gh-modal-header">
+        <h2 id="modal-title">推荐视频</h2>
+        <button type="button" class="gh-modal-close" id="modal-close" aria-label="关闭">×</button>
+      </div>
+      <div class="gh-modal-video">
+        <video id="modal-video" title="推荐训练视频" controls playsinline></video>
+      </div>
+      <div class="gh-modal-body">
+        <p id="modal-desc"></p>
+        <div class="gh-modal-tags" id="modal-tags"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="green_hand.js"></script>
+
+  <script src="ai_chat_widget.js"></script>
+<script>
+  AIChatWidget.init({
+    apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
+    model: 'glm-4-flashx-250414',                // 可选
+    temperature: 1,                  // 可选
+    systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
+  });
+</script>
+</body>
+</html>
