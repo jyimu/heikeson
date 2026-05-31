@@ -6,6 +6,7 @@
     {
       id: "biceps",
       name: "肱二头肌",
+      videoSrc: "videos/gongertou.mp4",
       bilibiliUrl: "https://www.bilibili.com/video/BV1Ly4y1e7vU",
       summary: "以肘屈为主的高频刺激，侧重峰值收缩与离心控制，适合短期提升手臂围度。",
       plan: "4 组 × 8–10 次 · 组间休息 60 秒 · 最后 1 组递减至力竭（降 20% 重量再做 6–8 次）",
@@ -129,7 +130,8 @@
 
   if (!grid) return;
 
-  function getVideoSrc(partIndex) {
+  function getVideoSrc(part, partIndex) {
+    if (part && part.videoSrc) return part.videoSrc;
     const fileIndex = (partIndex % VIDEO_COUNT) + 1;
     return "videos/" + fileIndex + ".mp4";
   }
@@ -189,7 +191,11 @@
       linkEl.href = part.bilibiliUrl;
       linkEl.textContent = "B 站教学 · " + extractBvid(part.bilibiliUrl);
     }
-    showVideo(getVideoSrc(partIndex));
+    showVideo(getVideoSrc(part, partIndex));
+
+    if (window.HeikesonPoseTracker) {
+      HeikesonPoseTracker.mount(document.getElementById("xx-pose-root"));
+    }
   }
 
   function updateCompleteButton(partId) {

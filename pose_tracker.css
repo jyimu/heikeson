@@ -1,0 +1,122 @@
+.hks-pose-panel {
+  border-top: 1px solid var(--gh-border, #e4e4e7);
+  padding: 16px 20px 20px;
+  background: #fafafa;
+}
+
+.hks-pose-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.hks-pose-head h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.hks-pose-status {
+  font-size: 0.75rem;
+  color: #71717a;
+}
+
+.hks-pose-toggle {
+  padding: 6px 14px;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.hks-pose-toggle:hover:not(:disabled) {
+  background: #f4f4f5;
+}
+
+.hks-pose-toggle:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.hks-pose-toggle.is-active {
+  background: #18181b;
+  color: #fff;
+  border-color: #18181b;
+}
+
+.hks-pose-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 360px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.hks-pose-video,
+.hks-pose-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.hks-pose-canvas {
+  pointer-events: none;
+}
+
+.hks-pose-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #a1a1aa;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 20px;
+}
+
+.hks-pose-hint {
+  margin-top: 10px;
+  font-size: 0.72rem;
+  color: #71717a;
+  line-height: 1.5;
+}
+
+.xx-body .hks-pose-panel {
+  margin-top: 16px;
+  border: 1px solid var(--xx-border, #2a2a32);
+  border-radius: 12px;
+  background: var(--xx-panel, #141418);
+}
+
+.xx-body .hks-pose-head h3 {
+  color: var(--xx-text, #f4f4f5);
+}
+
+.xx-body .hks-pose-status {
+  color: var(--xx-muted, #a1a1aa);
+}
+
+.xx-body .hks-pose-toggle {
+  background: transparent;
+  border-color: var(--xx-border, #2a2a32);
+  color: var(--xx-text, #f4f4f5);
+}
+
+.xx-body .hks-pose-toggle.is-active {
+  background: var(--xx-accent, #dc2626);
+  border-color: var(--xx-accent, #dc2626);
+  color: #fff;
+}
+
+.xx-body .hks-pose-hint {
+  color: var(--xx-muted, #a1a1aa);
+}

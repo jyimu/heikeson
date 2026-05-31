@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="green_hand.css" />
+  <link rel="stylesheet" href="pose_tracker.css" />
 </head>
 <body class="gh-body">
   <div class="gh-app">
@@ -233,6 +234,7 @@
       <div class="gh-modal-video">
         <video id="modal-video" title="推荐训练视频" controls playsinline></video>
       </div>
+      <div id="modal-pose-root"></div>
       <div class="gh-modal-body">
         <p id="modal-desc"></p>
         <div class="gh-modal-tags" id="modal-tags"></div>
@@ -240,6 +242,7 @@
     </div>
   </div>
 
+  <script src="pose_tracker.js"></script>
   <script src="rewards.js"></script>
   <script src="green_hand.js"></script>
 
@@ -247,7 +250,7 @@
 <script>
   AIChatWidget.init({
     apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
-    model: 'glm-4-flashx-250414',                // 可选
+    model: 'glm-4-plus',                // 可选
     temperature: 1,                  // 可选
     systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
   });

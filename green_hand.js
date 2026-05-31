@@ -338,10 +338,17 @@
       modal.classList.add("open");
       modal.setAttribute("aria-hidden", "false");
     }
+
+    if (window.HeikesonPoseTracker) {
+      HeikesonPoseTracker.mount(document.getElementById("modal-pose-root"));
+    }
   }
 
   function closeVideoModal() {
     if (!modal) return;
+    if (window.HeikesonPoseTracker) {
+      HeikesonPoseTracker.unmount();
+    }
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
     if (modalVideo) {
