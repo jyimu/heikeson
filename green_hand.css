@@ -227,6 +227,25 @@ body.gh-body {
   display: block;
 }
 
+/* 本地视频在卡片内的样式：默认隐藏，加载成功后由 JS 显示 */
+.gh-exercise-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.gh-ex-emoji {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  pointer-events: none;
+}
+
 .gh-gif-badge {
   position: absolute;
   top: 10px;
@@ -613,10 +632,12 @@ body.gh-body {
   background: #000;
 }
 
-.gh-modal-video iframe {
+.gh-modal-video iframe,
+.gh-modal-video video {
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
 }
 
 .gh-modal-body {

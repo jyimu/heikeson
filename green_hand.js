@@ -4,60 +4,12 @@
   const LOG_KEY = "heikeson_workout_logs";
 
   const exercises = [
-    {
-      id: "warmup",
-      name: "热身拉伸",
-      desc: "激活关节，降低受伤风险",
-      tags: ["新手", "5 分钟", "全身"],
-      videoId: "g_tea8ZNk5A",
-      gifStyle: "linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%)",
-      emoji: "🧘",
-    },
-    {
-      id: "squat",
-      name: "深蹲",
-      desc: "锻炼大腿与臀部，基础力量动作",
-      tags: ["下肢", "3×12", "核心"],
-      videoId: "aclHkVaku9U",
-      gifStyle: "linear-gradient(135deg, #dcfce7 0%, #86efac 100%)",
-      emoji: "🏋️",
-    },
-    {
-      id: "pushup",
-      name: "俯卧撑",
-      desc: "上肢推力训练，可跪姿降低难度",
-      tags: ["上肢", "3×10", "胸肌"],
-      videoId: "IODxDxX7oi4",
-      gifStyle: "linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%)",
-      emoji: "💪",
-    },
-    {
-      id: "plank",
-      name: "平板支撑",
-      desc: "静态核心稳定，保持身体一条线",
-      tags: ["核心", "3×30秒", "静态"],
-      videoId: "pSHjTRCQxIw",
-      gifStyle: "linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%)",
-      emoji: "🧱",
-    },
-    {
-      id: "jumping",
-      name: "开合跳",
-      desc: "提升心率，有氧热身经典动作",
-      tags: ["有氧", "3×20", "全身"],
-      videoId: "iSSAk4XCsRA",
-      gifStyle: "linear-gradient(135deg, #ede9fe 0%, #c4b5fd 100%)",
-      emoji: "⭐",
-    },
-    {
-      id: "lunge",
-      name: "弓步蹲",
-      desc: "单腿力量与平衡，注意膝盖方向",
-      tags: ["下肢", "3×10", "平衡"],
-      videoId: "QOVaHwm-Q6U",
-      gifStyle: "linear-gradient(135deg, #ffedd5 0%, #fdba74 100%)",
-      emoji: "🦵",
-    },
+    { id: "warmup", name: "热身拉伸", desc: "激活关节，降低受伤风险", tags: ["新手", "5 分钟", "全身"], gifStyle: "linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%)", emoji: "🧘" },
+    { id: "squat", name: "深蹲", desc: "锻炼大腿与臀部，基础力量动作", tags: ["下肢", "3×12", "核心"], gifStyle: "linear-gradient(135deg, #dcfce7 0%, #86efac 100%)", emoji: "🏋️" },
+    { id: "pushup", name: "俯卧撑", desc: "上肢推力训练，可跪姿降低难度", tags: ["上肢", "3×10", "胸肌"], gifStyle: "linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%)", emoji: "💪" },
+    { id: "plank", name: "平板支撑", desc: "静态核心稳定，保持身体一条线", tags: ["核心", "3×30秒", "静态"], gifStyle: "linear-gradient(135deg, #fce7f3 0%, #f9a8d4 100%)", emoji: "🧱" },
+    { id: "jumping", name: "开合跳", desc: "提升心率，有氧热身经典动作", tags: ["有氧", "3×20", "全身"], gifStyle: "linear-gradient(135deg, #ede9fe 0%, #c4b5fd 100%)", emoji: "⭐" },
+    { id: "lunge", name: "弓步蹲", desc: "单腿力量与平衡，注意膝盖方向", tags: ["下肢", "3×10", "平衡"], gifStyle: "linear-gradient(135deg, #ffedd5 0%, #fdba74 100%)", emoji: "🦵" },
   ];
 
   const tips = [
@@ -67,7 +19,7 @@
     { tip: "深蹲时膝盖方向应与脚尖一致，避免内扣造成关节压力。", quote: "「细节到位，进步加倍。」" },
     { tip: "平板支撑时收紧核心，别让腰塌下去，脖子保持自然中立。", quote: "「稳定，是一切力量的起点。」" },
     { tip: "俯卧撑做不了标准版？先从跪姿或斜板俯卧撑开始。", quote: "「降低难度不是退缩，是聪明的进阶。」" },
-    { tip: "训练日之外保证 7–8 小时睡眠，肌肉在休息中生长。", quote: "「睡够，才能练够。」" },
+    { tip: "训练日之外保证 7–8 小时睡眠，肌肉在休息时生长。", quote: "「睡够，才能练够。」" },
     { tip: "同一部位肌肉训练后至少休息 48 小时再练第二次。", quote: "「恢复，也是训练的一部分。」" },
     { tip: "热身不只是跑两步，动态拉伸 5 分钟能显著降低受伤风险。", quote: "「准备充分，才能全力以赴。」" },
     { tip: "训练结束后做 5–10 分钟静态拉伸，缓解延迟性肌肉酸痛。", quote: "「拉伸是给明天的自己留余地。」" },
@@ -130,7 +82,7 @@
   const modalTitle = document.getElementById("modal-title");
   const modalDesc = document.getElementById("modal-desc");
   const modalTags = document.getElementById("modal-tags");
-  const modalIframe = document.getElementById("modal-iframe");
+  const modalVideo = document.getElementById("modal-video");
   const pageTitle = document.getElementById("page-title");
   const logForm = document.getElementById("log-form");
   const logList = document.getElementById("log-list");
@@ -287,7 +239,9 @@
   function renderExercises() {
     if (!exerciseGrid) return;
     exerciseGrid.innerHTML = exercises
-      .map(function (ex) {
+      .map(function (ex, idx) {
+        // 使用数字命名视频 files: videos/1.mp4 ... videos/6.mp4
+        const fileIndex = idx + 1;
         return (
           '<article class="gh-exercise-card" data-id="' +
           ex.id +
@@ -297,8 +251,9 @@
           '<div class="gh-exercise-media" style="background:' +
           ex.gifStyle +
           '">' +
-          '<span class="gh-gif-badge">GIF</span>' +
-          '<div style="width:100%;height:100%;display:grid;place-items:center;font-size:3rem">' +
+          '<span class="gh-gif-badge">VID</span>' +
+          '<video class="gh-exercise-gif" src="videos/' + fileIndex + '.mp4" loop muted playsinline preload="metadata" style="display:none"></video>' +
+          '<div class="gh-ex-emoji" style="width:100%;height:100%;display:grid;place-items:center;font-size:3rem">' +
           ex.emoji +
           "</div>" +
           "</div>" +
@@ -311,6 +266,7 @@
       })
       .join("");
 
+    // 事件绑定
     exerciseGrid.querySelectorAll(".gh-exercise-card").forEach(function (card) {
       card.addEventListener("click", function () {
         openVideoModal(card.dataset.id);
@@ -322,13 +278,36 @@
         }
       });
     });
+
+    // 本地视频就绪与错误处理：可播放时显示视频，加载失败显示 emoji 回退
+    exerciseGrid.querySelectorAll(".gh-exercise-media").forEach(function (media) {
+      var video = media.querySelector("video");
+      var emoji = media.querySelector(".gh-ex-emoji");
+      if (!video) return;
+      video.addEventListener("canplay", function () {
+        video.style.display = "block";
+        if (emoji) emoji.style.display = "none";
+        try { video.play(); } catch (_) {}
+      });
+      video.addEventListener("error", function () {
+        video.style.display = "none";
+        if (emoji) emoji.style.display = "grid";
+      });
+      if (video.readyState >= 3) {
+        video.style.display = "block";
+        if (emoji) emoji.style.display = "none";
+      }
+    });
   }
 
   function openVideoModal(id) {
-    const ex = exercises.find(function (item) {
+    const idx = exercises.findIndex(function (item) {
       return item.id === id;
     });
-    if (!ex || !modal) return;
+    if (idx === -1 || !modal) return;
+
+    const ex = exercises[idx];
+    const fileIndex = idx + 1; // 视频文件按 1..6 命名
 
     modalTitle.textContent = ex.name + " · 推荐视频";
     modalDesc.textContent = ex.desc;
@@ -337,16 +316,34 @@
         return '<span class="gh-tag">' + t + "</span>";
       })
       .join("");
-    modalIframe.src = "https://www.youtube.com/embed/" + ex.videoId + "?rel=0";
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
+
+    if (modalVideo) {
+      modalVideo.src = "videos/" + fileIndex + ".mp4";
+      modalVideo.loop = true;
+      modalVideo.muted = true; // 为了保证浏览器允许 autoplay
+      // 显示 modal 再播放
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+      // 尝试播放（部分浏览器需要用户交互才能有声播放）
+      modalVideo.play().catch(function (_) {});
+    } else {
+      // 保持回退行为，如果 modalVideo 不存在，可扩展
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    }
   }
 
   function closeVideoModal() {
     if (!modal) return;
     modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
-    modalIframe.src = "";
+    if (modalVideo) {
+      try {
+        modalVideo.pause();
+      } catch (_) {}
+      modalVideo.removeAttribute('src');
+      modalVideo.load();
+    }
   }
 
   function switchView(view) {
@@ -383,8 +380,7 @@
       .join("");
 
     for (let i = firstDay - 1; i >= 0; i--) {
-      html +=
-        '<span class="gh-cal-day other-month">' + (prevDays - i) + "</span>";
+      html += '<span class="gh-cal-day other-month">' + (prevDays - i) + "</span>";
     }
     for (let d = 1; d <= daysInMonth; d++) {
       const cls = d === today ? "gh-cal-day today" : "gh-cal-day";
@@ -499,12 +495,13 @@
   }
 
   function initModal() {
-    document
-      .getElementById("modal-close")
-      .addEventListener("click", closeVideoModal);
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) closeVideoModal();
-    });
+    const closeBtn = document.getElementById("modal-close");
+    if (closeBtn) closeBtn.addEventListener("click", closeVideoModal);
+    if (modal) {
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeVideoModal();
+      });
+    }
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeVideoModal();
     });

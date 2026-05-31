@@ -54,25 +54,24 @@
     </section>
 
     <section class="workspace-showcase" aria-label="健身场景展示">
-      <h2 class="workspace-showcase-title">健身场景展示</h2>
       <div class="workspace-grid">
         <div class="workspace-video-card">
-          <video class="workspace-video" src="videos/生成人物健身循环视频.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 1"></video>
+          <video class="workspace-video" src="videos/1.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 1"></video>
         </div>
         <div class="workspace-video-card">
-          <video class="workspace-video" src="videos/生成人物健身循环视频 (2).mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 2"></video>
+          <video class="workspace-video" src="videos/2.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 2"></video>
         </div>
         <div class="workspace-video-card">
-          <video class="workspace-video" src="videos/生成人物健身循环视频 (3).mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 3"></video>
+          <video class="workspace-video" src="videos/3.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 3"></video>
         </div>
         <div class="workspace-video-card">
-          <video class="workspace-video" src="videos/生成人物健身循环视频 (4).mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 4"></video>
+          <video class="workspace-video" src="videos/4.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 4"></video>
         </div>
         <div class="workspace-video-card">
-          <video class="workspace-video" src="videos/生成人物健身循环视频 (5).mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 5"></video>
+          <video class="workspace-video" src="videos/5.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 5"></video>
         </div>
         <div class="workspace-video-card">
-          <video class="workspace-video" src="videos/生成人物健身循环视频 (6).mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 6"></video>
+          <video class="workspace-video" src="videos/6.mp4" autoplay loop muted playsinline preload="auto" aria-label="健身动作演示 6"></video>
         </div>
       </div>
     </section>
@@ -110,5 +109,15 @@
   </div>
 
   <script src="joining.js"></script>
+
+  <script src="ai_chat_widget.js"></script>
+<script>
+  AIChatWidget.init({
+    apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
+    model: 'glm-4-flashx-250414',                // 可选
+    temperature: 1,                  // 可选
+    systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
+  });
+</script>
 </body>
 </html>
