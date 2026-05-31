@@ -1,4 +1,3 @@
-
 /*
  * AI Chat Widget - 悬浮球 + 侧边栏对话 + 文本引用
  * 独立 JS 文件，引入后即可使用
@@ -7,7 +6,10 @@
  * <script src="ai_chat_widget.js"></script>
  * <script>
  *   AIChatWidget.init({
- *     apiEndpoint: null, // 如需真实 AI，填入 API 地址
+ *     apiKey: 'your-api-key-here',        // 必填：智谱 API Key
+ *     apiEndpoint: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+ *     model: 'glm-5.1',                    // 可选，默认 glm-5.1
+ *     temperature: 1,                      // 可选，默认 1
  *     welcomeMessage: '你好！选中页面文字后点击"引用"即可带入对话。'
  *   });
  * </script>
@@ -18,7 +20,12 @@
     // ==================== 默认配置 ====================
     const defaultConfig = {
         position: { bottom: 40, right: 40 },
-        apiEndpoint: null,
+        apiEndpoint: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+        apiKey: null,                        // 必填
+        model: 'glm-5.1',
+        temperature: 1,
+        stream: false,                       // 当前版本暂不支持流式，设为 false
+        systemMessage: '你是一个 helpful 的 AI 助手。', // 可选系统提示
         welcomeMessage: '你好！我是你的 AI 助手。选中页面文字后点击"引用"即可带入对话。',
         maxQuoteLength: 300,
         theme: {
@@ -37,7 +44,8 @@
         initialLeft: 0, initialTop: 0,
         quoteText: '',
         selectedText: '',
-        quoteTooltipTimer: null
+        quoteTooltipTimer: null,
+        messages: []                         // 对话历史上下文
     };
 
     let els = {};
@@ -545,17 +553,6 @@
     }
 
     // ==================== 聊天逻辑 ====================
-    const responses = [
-        "这是一个很有趣的问题！让我想想...",
-        "我理解你的意思。基于目前的分析，我建议你可以尝试这种方法。",
-        "好的，我已经收到了你的消息。还有什么需要补充的吗？",
-        "根据我的知识库，这个问题涉及到几个关键点...",
-        "抱歉，我可能需要更多信息才能给出准确的回答。",
-        "这是一个很好的观点！我可以为你进一步展开说明。",
-        "收到！我正在处理你的请求，请稍等。",
-        "从专业角度来看，这个方案是可行的，但需要注意一些细节。"
-    ];
-
     function getTime() {
         const now = new Date();
         return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
@@ -587,17 +584,30 @@
         els.chat.scrollTo({ top: els.chat.scrollHeight, behavior: 'smooth' });
     }
 
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ==================== 核心：API 调用（智谱 AI 格式） ====================
+    function buildUserContent(text, quote) {
+        if (quote) {
+            return '引用内容：「' + quote + '」\n\n' + text;
+        }
+        return text;
+    }
+
     function sendMessage() {
         const text = els.input.value.trim();
         if (!text) return;
 
-        // 构建显示文本
+        // 构建用户消息内容（含引用）
+        const userContent = buildUserContent(text, state.quoteText);
+
+        // UI 显示
         let displayHtml = escapeHtml(text);
-        let fullPrompt = text;
-        
         if (state.quoteText) {
-            fullPrompt = '引用内容：「' + state.quoteText + '」\\n\\n用户问题：' + text;
-            // UI 上显示引用标签
             const quotePreview = state.quoteText.length > 50 ? state.quoteText.substring(0, 50) + '...' : state.quoteText;
             displayHtml = '<div style="font-size:12px;opacity:0.85;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.25)">📎 引用: ' + escapeHtml(quotePreview) + '</div>' + displayHtml;
         }
@@ -607,42 +617,87 @@
         els.input.style.height = 'auto';
         scrollToBottom();
 
-        // 模拟 AI 回复
-        const typing = showTyping();
-        setTimeout(() => {
-            removeTyping();
-            const resp = responses[Math.floor(Math.random() * responses.length)];
-            els.chat.appendChild(createMsg(escapeHtml(resp), false));
-            scrollToBottom();
-        }, 1000 + Math.random() * 800);
+        // 将用户消息加入对话历史
+        state.messages.push({ role: 'user', content: userContent });
 
-        // 真实 API 调用（如需）
-        if (config.apiEndpoint) {
-            callAPI(fullPrompt);
+        // 显示打字动画
+        const typing = showTyping();
+
+        // 调用真实 API
+        if (config.apiKey) {
+            callAPI();
+        } else {
+            // 无 API Key 时回退到模拟回复
+            setTimeout(() => {
+                removeTyping();
+                const fallback = '请先配置 apiKey 以启用 AI 对话功能。';
+                els.chat.appendChild(createMsg(escapeHtml(fallback), false));
+                scrollToBottom();
+            }, 500);
+        }
+
+        // 清空引用
+        if (state.quoteText) {
+            removeQuote();
         }
     }
 
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+    function callAPI() {
+        const messages = [];
+        
+        // 添加系统消息（如果配置了）
+        if (config.systemMessage) {
+            messages.push({ role: 'system', content: config.systemMessage });
+        }
+        
+        // 添加历史对话（保留最近 20 轮上下文，防止过长）
+        const history = state.messages.slice(-20);
+        messages.push(...history);
 
-    function callAPI(prompt) {
         fetch(config.apiEndpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: prompt })
+            headers: {
+                'Authorization': 'Bearer ' + config.apiKey,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: config.model,
+                messages: messages,
+                stream: config.stream,
+                temperature: config.temperature
+            })
         })
-        .then(r => r.json())
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(err => {
+                    throw new Error(err.error?.message || 'HTTP ' + res.status);
+                });
+            }
+            return res.json();
+        })
         .then(data => {
             removeTyping();
-            if (data && data.reply) {
-                els.chat.appendChild(createMsg(escapeHtml(data.reply), false));
-                scrollToBottom();
+            
+            // 智谱 AI / OpenAI 兼容格式：choices[0].message.content
+            const reply = data.choices?.[0]?.message?.content;
+            
+            if (reply) {
+                // 将 AI 回复加入对话历史
+                state.messages.push({ role: 'assistant', content: reply });
+                els.chat.appendChild(createMsg(escapeHtml(reply), false));
+            } else {
+                const errMsg = 'AI 返回异常：' + JSON.stringify(data);
+                els.chat.appendChild(createMsg(escapeHtml(errMsg), false));
             }
+            scrollToBottom();
         })
-        .catch(err => console.error('AI API Error:', err));
+        .catch(err => {
+            removeTyping();
+            const errMsg = '请求失败：' + err.message;
+            els.chat.appendChild(createMsg(escapeHtml(errMsg), false));
+            scrollToBottom();
+            console.error('AI API Error:', err);
+        });
     }
 
     // ==================== 初始化入口 ====================
@@ -665,8 +720,8 @@
         open: openSidebar,
         close: closeSidebar,
         setQuote: addQuote,
-        clearQuote: removeQuote
+        clearQuote: removeQuote,
+        clearHistory: function() { state.messages = []; }
     };
 
 })(window);
-

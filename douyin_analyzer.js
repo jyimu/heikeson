@@ -3,6 +3,13 @@
   const HISTORY_KEY = "heikeson_douyin_history";
   const API_ENDPOINT = window.DOUYIN_ANALYZER_API || null;
 
+  // ==================== AI 大模型接口配置 ====================
+  const AI_API_KEY = window.DOUYIN_AI_API_KEY || '<YOUR_ZHIPU_API_KEY>';
+  const AI_API_URL = window.DOUYIN_AI_API_URL || 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+  const AI_MODEL = window.DOUYIN_AI_API_MODEL || 'glm-5.1';
+  const AI_STREAM = window.DOUYIN_AI_API_STREAM || false;
+  // ==========================================================
+
   const DOUYIN_PATTERNS = [
     /douyin\.com\/video\/(\d+)/i,
     /douyin\.com\/share\/video\/(\d+)/i,
@@ -12,6 +19,48 @@
 
   const DOUYIN_URL_REGEX =
     /https?:\/\/(?:www\.)?(?:v\.douyin\.com\/[^\s\u4e00-\u9fff，。！？]+|(?:www\.)?douyin\.com\/[^\s\u4e00-\u9fff，。！？]+|(?:www\.)?iesdouyin\.com\/[^\s\u4e00-\u9fff，。！？]+)/i;
+
+  // ==================== 预置 B站 BV 号映射表（仅链接） ====================
+  const bilibiliVideoMap = {
+    squat: [
+      { bvid: 'BV1jN411d7jF', title: '深蹲教学：标准动作与常见错误' },
+      { bvid: 'BV1T4411H7sE', title: '深蹲要点精讲' },
+      { bvid: 'BV1GJ411x7h7', title: '下肢力量训练基础' },
+    ],
+    pushup: [
+      { bvid: 'BV1bM411a7P3', title: '俯卧撑标准动作教学' },
+      { bvid: 'BV1G6nBzAEtE', title: '俯卧撑训练计划与进阶' },
+      { bvid: 'BV1YW411N7sM', title: '街健俯卧撑变式大全' },
+    ],
+    plank: [
+      { bvid: 'BV1dLWqzgE1m', title: '平板支撑标准动作教学' },
+      { bvid: 'BV1LW411u7BB', title: '核心训练：平板支撑进阶' },
+      { bvid: 'BV1sQ4y1y7Gt', title: '核心稳定性训练指南' },
+    ],
+    lunge: [
+      { bvid: 'BV1eZ4y187Nz', title: '弓步蹲动作教学' },
+      { bvid: 'BV1sQ4y1y7Gt', title: '分腿蹲与平衡训练' },
+    ],
+    jumping: [
+      { bvid: 'BV1GJ411x7h7', title: 'HIIT 跳跃训练入门' },
+      { bvid: 'BV1T4411H7sE', title: '有氧爆发力训练' },
+    ],
+    stretch: [
+      { bvid: 'BV1GJ411x7h7', title: '训练后拉伸完全指南' },
+      { bvid: 'BV1T4411H7sE', title: '动态热身与静态拉伸' },
+    ],
+    biceps: [
+      { bvid: 'BV1GJ411x7h7', title: '哑铃弯举标准动作' },
+      { bvid: 'BV1T4411H7sE', title: '手臂训练：二头肌孤立训练' },
+      { bvid: 'BV1eZ4y187Nz', title: '锤式弯举与集中弯举' },
+    ],
+    general: [
+      { bvid: 'BV1GJ411x7h7', title: '综合健身入门指南' },
+      { bvid: 'BV1T4411H7sE', title: '家庭健身训练计划' },
+      { bvid: 'BV1bM411a7P3', title: '新手健身常见错误纠正' },
+    ],
+  };
+  // ==============================================================
 
   const exerciseLibrary = {
     squat: {
@@ -182,6 +231,20 @@
     }
   }
 
+  function getUserBMIInfo(user) {
+    if (!user || !user.height || !user.weight) return null;
+    const h = parseFloat(user.height) / 100;
+    const w = parseFloat(user.weight);
+    if (h <= 0 || w <= 0) return null;
+    const bmi = w / (h * h);
+    let level = "中等";
+    if (bmi < 18.5) level = "偏瘦";
+    else if (bmi < 24) level = "正常";
+    else if (bmi < 28) level = "偏重";
+    else level = "较高";
+    return { bmi: bmi, level: level, height: user.height, weight: user.weight };
+  }
+
   function extractVideoId(url) {
     for (let i = 0; i < DOUYIN_PATTERNS.length; i++) {
       const match = url.match(DOUYIN_PATTERNS[i]);
@@ -324,31 +387,22 @@
   }
 
   function buildPersonalAdvice(user, exerciseKey) {
-    if (!user || !user.height || !user.weight) {
+    const info = getUserBMIInfo(user);
+    if (!info) {
       return "登录并填写身高体重后，系统可结合 BMI 给出更贴合的训练建议。";
     }
 
-    const h = parseFloat(user.height) / 100;
-    const w = parseFloat(user.weight);
-    if (h <= 0 || w <= 0) {
-      return "请先在个人中心完善身高体重数据。";
-    }
-
-    const bmi = w / (h * h);
-    let level = "中等";
+    const bmi = info.bmi;
+    const level = info.level;
     let advice = "";
 
     if (bmi < 18.5) {
-      level = "偏瘦";
       advice = "跟练时注意控制有氧时长，可适当增加组间休息，训练后补充蛋白质。";
     } else if (bmi < 24) {
-      level = "正常";
       advice = "当前体型适合按视频标准节奏跟练，建议循序渐进加重或加次。";
     } else if (bmi < 28) {
-      level = "偏重";
       advice = "建议优先选择低冲击版本（如跪姿俯卧撑、减小跳跃幅度），保护膝踝。";
     } else {
-      level = "较高";
       advice = "建议以低冲击动作为主，缩短单次时长，分多组完成，并关注心率与关节感受。";
     }
 
@@ -362,9 +416,9 @@
 
     return (
       "根据你的数据（" +
-      user.height +
+      info.height +
       "cm / " +
-      user.weight +
+      info.weight +
       "kg，BMI " +
       bmi.toFixed(1) +
       "，" +
@@ -442,7 +496,46 @@
     const linkEl = document.getElementById("result-source-link");
     linkEl.href = data.url;
     linkEl.textContent = "查看原视频链接";
+
+    // 仅渲染 BV 号链接列表
+    renderBilibiliLinks(data.exerciseKey || 'general');
   }
+
+  // ==================== B站链接列表（纯文本，无预览） ====================
+  function renderBilibiliLinks(exerciseKey) {
+    let container = document.getElementById("result-bilibili-links");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "result-bilibili-links";
+      container.className = "bilibili-links-section";
+      resultPanel.appendChild(container);
+    }
+
+    const videos = bilibiliVideoMap[exerciseKey] || bilibiliVideoMap.general;
+    if (!videos || videos.length === 0) {
+      container.hidden = true;
+      return;
+    }
+
+    container.hidden = false;
+
+    const listHtml = videos.map(function (v, idx) {
+      const pageUrl = 'https://www.bilibili.com/video/' + v.bvid;
+      return (
+        '<div class="bili-link-item">' +
+          '<span class="bili-link-num">' + (idx + 1) + '</span>' +
+          '<a href="' + pageUrl + '" target="_blank" class="bili-link-title" title="在B站打开">' + escapeHtml(v.title) + '</a>' +
+          '<span class="bili-link-bvid">' + v.bvid + '</span>' +
+          '<button class="bili-link-copy" data-bvid="' + v.bvid + '" onclick="window.copyBV(this)">复制</button>' +
+        '</div>'
+      );
+    }).join('');
+
+    container.innerHTML =
+      '<h3 class="bilibili-links-title">📎 相关教学视频（B站）</h3>' +
+      '<div class="bilibili-links-list">' + listHtml + '</div>';
+  }
+  // =======================================================================
 
   function escapeHtml(text) {
     const div = document.createElement("div");
@@ -520,8 +613,137 @@
       mistakes: raw.mistakes || raw.commonMistakes || [],
       plan: raw.plan || raw.trainingPlan || "",
       personalAdvice: raw.personalAdvice || raw.advice || "",
+      exerciseKey: raw.exerciseKey || 'general',
     };
   }
+
+  function buildAnalysisPrompt(parsed, hint, user) {
+    const info = getUserBMIInfo(user);
+    const bmiText = info
+      ? `身高 ${info.height}cm，体重 ${info.weight}kg，BMI ${info.bmi.toFixed(1)}（${info.level}）`
+      : '未提供身高体重数据';
+
+    const userContent = `请分析以下抖音健身视频，并返回JSON格式的专业报告：
+
+【视频信息】
+- 链接：${parsed.url}
+- 识别标签：${parsed.tags.join('、') || '无'}
+- 分享文案：${parsed.labelText || '无'}
+- 用户补充：${hint || '无'}
+
+【用户身体数据】
+${bmiText}
+
+【输出要求】
+严格按以下JSON格式返回，不要包含 markdown 代码块标记或其他说明文字：
+{
+  "actionName": "动作类别名称，如深蹲类动作",
+  "summary": "视频内容分析摘要（1-2句话）",
+  "points": ["技术要点1", "技术要点2", "技术要点3", "技术要点4"],
+  "mistakes": ["常见错误1", "常见错误2", "常见错误3", "常见错误4"],
+  "plan": "具体训练计划（组数×次数、休息、进阶建议）",
+  "personalAdvice": "基于用户数据的个性化建议",
+  "exerciseKey": "动作类型关键词，必须是以下之一：squat、pushup、plank、lunge、jumping、stretch、biceps、general"
+}
+
+分析要求：
+1. 根据标签、文案和链接内容判断动作类型，exerciseKey 必须严格使用上述枚举值之一
+2. 技术要点要具体、可操作，每条控制在30字以内
+3. 常见错误要说明后果或风险
+4. 训练计划要量化（如 3组×12次，组间休息60秒）
+5. 个性化建议考虑BMI、动作冲击性、关节压力等因素
+6. 使用中文，专业但易懂`;
+
+    return {
+      model: AI_MODEL,
+      messages: [
+        {
+          role: 'system',
+          content: '你是一位拥有10年经验的专业健身教练和运动科学分析师。你擅长根据视频文本信息生成精准、实用、安全的训练分析报告。你的输出必须严格符合用户要求的JSON格式，exerciseKey必须是枚举值之一。'
+        },
+        {
+          role: 'user',
+          content: userContent
+        }
+      ],
+      stream: AI_STREAM,
+      temperature: 0.7
+    };
+  }
+
+  function analyzeWithAI(parsed, hint) {
+    const user = getSession();
+    const body = buildAnalysisPrompt(parsed, hint, user);
+
+    return fetch(AI_API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + AI_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('AI服务请求失败: ' + res.status);
+      return res.json();
+    }).then(function (data) {
+      const content = data.choices?.[0]?.message?.content || '';
+      if (!content) throw new Error('AI返回内容为空');
+
+      let jsonStr = content;
+      const codeBlockMatch = content.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+      if (codeBlockMatch) {
+        jsonStr = codeBlockMatch[1].trim();
+      }
+
+      const result = JSON.parse(jsonStr);
+
+      if (!result.actionName || !Array.isArray(result.points) || !Array.isArray(result.mistakes)) {
+        throw new Error('AI返回数据格式不完整');
+      }
+
+      const validKeys = Object.keys(exerciseLibrary);
+      const exerciseKey = validKeys.indexOf(result.exerciseKey) !== -1 ? result.exerciseKey : 'general';
+
+      return {
+        url: parsed.url,
+        videoId: extractVideoId(parsed.url),
+        tags: parsed.tags,
+        actionName: result.actionName,
+        summary: result.summary || '',
+        points: result.points,
+        mistakes: result.mistakes,
+        plan: result.plan || '',
+        personalAdvice: result.personalAdvice || '',
+        exerciseKey: exerciseKey,
+      };
+    });
+  }
+
+  window.copyBV = function (btn) {
+    const bvid = btn.getAttribute('data-bvid');
+    if (!bvid) return;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(bvid).then(function () {
+        const orig = btn.textContent;
+        btn.textContent = '已复制';
+        btn.disabled = true;
+        setTimeout(function () {
+          btn.textContent = orig;
+          btn.disabled = false;
+        }, 1500);
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = bvid;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const orig = btn.textContent;
+      btn.textContent = '已复制';
+      setTimeout(function () { btn.textContent = orig; }, 1500);
+    }
+  };
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -555,7 +777,18 @@
       setStatus("分析完成", "success");
     };
 
-    if (API_ENDPOINT) {
+    if (AI_API_KEY && AI_API_KEY !== '<YOUR_ZHIPU_API_KEY>') {
+      analyzeWithAI(parsed, hint)
+        .then(function (data) {
+          finish(data);
+        })
+        .catch(function (err) {
+          console.error('AI分析失败:', err);
+          const localData = analyzeLocally(parsed, hint);
+          finish(localData);
+          setStatus("AI服务暂不可用，已切换至本地智能分析", "info");
+        });
+    } else if (API_ENDPOINT) {
       analyzeViaApi(parsed.url, hint, parsed)
         .then(function (raw) {
           finish(normalizeApiResult(raw, parsed.url));
