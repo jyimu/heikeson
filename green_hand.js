@@ -100,7 +100,28 @@
     { name: "弹力带", desc: "辅助拉伸与阻力训练", icon: "🎗️" },
     { name: "运动水壶", desc: "及时补水，500ml 起步", icon: "🥤" },
     { name: "跑步鞋", desc: "缓震支撑，保护膝踝", icon: "👟" },
+    { name: "泡沫轴", desc: "放松筋膜，缓解酸痛", icon: "🛞" },
+    { name: "跳绳", desc: "有氧热身，占地小", icon: "➰" },
+    { name: "哑铃", desc: "居家力量，从轻开始", icon: "🏋️" },
+    { name: "护腕", desc: "推举支撑，保护关节", icon: "🩹" },
+    { name: "运动毛巾", desc: "擦汗防滑，保持干爽", icon: "🧻" },
+    { name: "健身手套", desc: "握力更稳，减少茧子", icon: "🧤" },
+    { name: "运动耳机", desc: "节奏跟练，提升专注", icon: "🎧" },
+    { name: "护膝", desc: "深蹲弓步，减轻压力", icon: "🦵" },
   ];
+
+  const GEAR_DISPLAY_COUNT = 4;
+
+  function shuffleArray(list) {
+    const copy = list.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = copy[i];
+      copy[i] = copy[j];
+      copy[j] = tmp;
+    }
+    return copy;
+  }
 
   const navItems = document.querySelectorAll(".gh-nav-item");
   const panelViews = document.querySelectorAll(".gh-panel-view");
@@ -427,7 +448,9 @@
   function renderGear() {
     const list = document.getElementById("gear-list");
     if (!list) return;
-    list.innerHTML = gear
+    const count = Math.min(GEAR_DISPLAY_COUNT, gear.length);
+    const picked = shuffleArray(gear).slice(0, count);
+    list.innerHTML = picked
       .map(function (item) {
         return (
           '<a href="#" class="gh-gear-item" onclick="return false">' +
