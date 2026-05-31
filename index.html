@@ -107,5 +107,15 @@
   </div>
 
   <script src="joining.js"></script>
+
+  <script src="ai_chat_widget.js"></script>
+<script>
+  AIChatWidget.init({
+    apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
+    model: 'glm-4-flashx-250414',                // 可选
+    temperature: 1,                  // 可选
+    systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
+  });
+</script>
 </body>
 </html>

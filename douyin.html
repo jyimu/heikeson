@@ -4,9 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>抖音视频分析 · 黑鸭 dark duck</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -114,6 +111,21 @@
   </div>
 
   <script src="joining.js"></script>
+  <script>
+    window.DOUYIN_AI_API_KEY = '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB';
+    window.DOUYIN_AI_MODEL = 'glm-4-flashx-250414'; // 可选，默认即 glm-5.1
+  </script>
   <script src="douyin_analyzer.js"></script>
+
+
+  <script src="ai_chat_widget.js"></script>
+  <script>
+    AIChatWidget.init({
+      apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
+      model: 'glm-4-flashx-250414',                // 可选
+      temperature: 1,                  // 可选
+      systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
+    });
+  </script>
 </body>
 </html>

@@ -178,7 +178,7 @@
         <button type="button" class="gh-modal-close" id="modal-close" aria-label="关闭">×</button>
       </div>
       <div class="gh-modal-video">
-        <iframe id="modal-iframe" title="推荐训练视频" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <video id="modal-video" title="推荐训练视频" controls playsinline></video>
       </div>
       <div class="gh-modal-body">
         <p id="modal-desc"></p>
@@ -188,5 +188,15 @@
   </div>
 
   <script src="green_hand.js"></script>
+
+  <script src="ai_chat_widget.js"></script>
+<script>
+  AIChatWidget.init({
+    apiKey: '56982804a0c240ec85082e5e8d148d3d.7qUhn1d74wth7GAB',   // 必填
+    model: 'glm-4-flashx-250414',                // 可选
+    temperature: 1,                  // 可选
+    systemMessage: '你是一个健身教练,需要对用户的问题作出专业解答但要易于理解。'  // 可选系统提示
+  });
+</script>
 </body>
 </html>
